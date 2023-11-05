@@ -1,0 +1,75 @@
+package com.wl.accountbook.ui
+
+import android.os.Bundle
+import android.util.Log
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
+import androidx.lifecycle.lifecycleScope
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.wl.accountbook.ui.home.HomeScreen
+import com.wl.accountbook.ui.theme.AccountBookTheme
+import com.wl.domain.usecases.currency.ReadCurrency
+import com.wl.domain.usecases.currency.SaveCurrency
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
+
+//    @Inject
+//    lateinit var readCurrency: ReadCurrency
+//
+//    @Inject
+//    lateinit var saveCurrency: SaveCurrency
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
+        super.onCreate(savedInstanceState)
+
+        splashScreen.setKeepOnScreenCondition{
+            false
+        }
+
+//        lifecycleScope.launch {
+//            saveCurrency("123")
+//            readCurrency().collect {
+//                Log.d("Test", it.toString())
+//            }
+//        }
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        setContent {
+            AccountBookTheme(dynamicColor = false) {
+
+                val systemController = rememberSystemUiController()
+                SideEffect {
+                    systemController.setSystemBarsColor(
+                        color = Color.Transparent
+                    )
+                }
+
+                // A surface container using the 'background' color from the theme
+//                Surface(
+//                    modifier = Modifier.fillMaxSize(),
+//                    color = MaterialTheme.colorScheme.secondary
+//                ) {
+//                    HomeScreen()
+//                }
+                HomeScreen(listOf())
+            }
+        }
+    }
+}

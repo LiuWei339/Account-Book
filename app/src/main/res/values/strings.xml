@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Account Book</string>
+    <string name="expenses">Expenses</string>
+    <string name="income">Income</string>
+    <string name="total">Total</string>
+    <string name="expenses_amount">Expenses: %.2f</string>
+    <string name="income_amount">Income: %.2f</string>
 </resources>

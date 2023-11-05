@@ -16,3 +16,4 @@ rootProject.name = "account book"
 include ':app'
 include ':domain'
 include ':data'
+include ':common'
