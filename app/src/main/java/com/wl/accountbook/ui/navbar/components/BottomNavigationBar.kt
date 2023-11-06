@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
+import com.wl.accountbook.ui.common.NavigationBarFiller
 import com.wl.accountbook.ui.theme.AccountBookTheme
 import com.wl.accountbook.ui.theme.LightGrayBg
 
@@ -36,39 +38,45 @@ fun BottomNavigationBar(
         items.size / 2
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Row(
+    Column {
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .background(LightGrayBg),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            items.forEachIndexed { index, item ->
-                if (index != middleIndex) {
-                    BottomNavigationBarItem(
-                        item,
-                        index == selected,
-                        onClick = {
-                            onItemClick(index)
-                        }
-                    )
-                } else {
-                    Box(modifier = Modifier.width(Dimens.NavBigIconSize))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(LightGrayBg)
+                    .align(Alignment.BottomCenter),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                items.forEachIndexed { index, item ->
+                    if (index != middleIndex) {
+                        BottomNavigationBarItem(
+                            item,
+                            index == selected,
+                            onClick = {
+                                onItemClick(index)
+                            }
+                        )
+                    } else {
+                        Box(modifier = Modifier.width(Dimens.NavBigIconSize))
+                    }
                 }
             }
+
+            BigBottomNavigationBarItem(
+                items[middleIndex],
+                modifier = Modifier
+                    .align(Alignment.TopCenter),
+                onClick = { onItemClick(middleIndex) }
+            )
         }
 
-        BigBottomNavigationBarItem(
-            items[middleIndex],
-            modifier = Modifier.align(Alignment.TopCenter),
-            onClick = { onItemClick(middleIndex) }
-        )
+        NavigationBarFiller(color = LightGrayBg)
     }
+
 }
 
 @Composable
@@ -109,7 +117,10 @@ fun BottomNavigationBarItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .padding(vertical = Dimens.PaddingLarge)
-            .clickable {
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) {
                 onClick()
             }
     ) {

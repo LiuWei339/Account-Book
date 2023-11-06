@@ -23,6 +23,5 @@ object Dimens {
     val DayRecordHeight = 24.dp
     val NavIconSize = 20.dp
     val NavBigIconSize = 56.dp
-    val NavBarHeight = 56.dp
-    val NavBarExceedHeight = 84.dp
+    val NavBarContentPadding = 100.dp
 }
