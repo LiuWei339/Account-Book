@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
+import com.wl.accountbook.ui.common.HorizontalDivider
 import com.wl.accountbook.ui.theme.AccountBookTheme
 import com.wl.accountbook.ui.theme.TextGray
 import com.wl.accountbook.ui.util.toActualMoney
@@ -46,7 +47,7 @@ fun SingleRecordCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 // icon TODO
-                Text(text = record.type.iconPath)
+                Text(text = record.type.emoji)
 
                 Spacer(modifier = Modifier.width(Dimens.PaddingLarge))
 
@@ -128,7 +129,7 @@ fun DayRecords(
         }
 
         val sortedRecords = remember(records) {
-            records.sortedByDescending { it.timeStamp }
+            records.sortedByDescending { it.createTime }
         }
 
         DayRecordsTitle(
@@ -136,7 +137,7 @@ fun DayRecords(
             modifier = Modifier.padding(horizontal = Dimens.PaddingXLarge)
         )
 
-        HorizontalDivider()
+        HorizontalDivider(1f)
 
         Column {
             sortedRecords.forEach { record ->
@@ -163,8 +164,9 @@ fun SingleRecordCardPreview() {
                     "🎮",
                     true
                 ),
+                "",
                 Date().time,
-                ""
+                Date().time,
             )
         )
     }
@@ -185,8 +187,9 @@ fun DayRecordsPreview() {
                         "🎮",
                         true
                     ),
+                    "",
                     Date().time,
-                    ""
+                    Date().time,
                 ),
                 MoneyRecord(
                     10,
@@ -196,8 +199,9 @@ fun DayRecordsPreview() {
                         "🏓",
                         false
                     ),
+                    "",
                     Date().time + 1,
-                    ""
+                    Date().time + 1,
                 )
             )
         )

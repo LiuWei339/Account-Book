@@ -1,18 +1,15 @@
 package com.wl.accountbook.ui.navbar
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -107,8 +104,9 @@ fun AbNavigator() {
                                     "🎮",
                                     true
                                 ),
+                                "",
                                 Date().time,
-                                ""
+                                Date().time,
                             ),
                             MoneyRecord(
                                 10,
@@ -118,8 +116,9 @@ fun AbNavigator() {
                                     "🏓",
                                     false
                                 ),
+                                "",
                                 Date().time + 1,
-                                ""
+                                Date().time + 1,
                             )
                         ),
                         Date().tomorrow() to listOf(
@@ -131,8 +130,9 @@ fun AbNavigator() {
                                     "🎮",
                                     true
                                 ),
+                                "",
                                 Date().time + 2,
-                                ""
+                                Date().time + 2,
                             ),
                             MoneyRecord(
                                 10,
@@ -142,8 +142,9 @@ fun AbNavigator() {
                                     "🏓",
                                     false
                                 ),
+                                "",
                                 Date().time + 3,
-                                ""
+                                Date().time + 3,
                             )
                         ),
                     )

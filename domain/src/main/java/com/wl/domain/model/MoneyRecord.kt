@@ -3,6 +3,7 @@ package com.wl.domain.model
 data class MoneyRecord(
     val amount: Long,
     val type: MoneyRecordType,
-    val timeStamp: Long = System.currentTimeMillis(),
-    val note: String
+    val note: String = "",
+    val recordTime: Long,
+    val createTime: Long = System.currentTimeMillis()
 )

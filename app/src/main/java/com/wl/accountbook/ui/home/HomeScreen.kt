@@ -152,8 +152,9 @@ fun HomeScreenPreview() {
                             "🎮",
                             true
                         ),
+                        "",
                         Date().time,
-                        ""
+                        Date().time,
                     ),
                     MoneyRecord(
                         10,
@@ -163,8 +164,9 @@ fun HomeScreenPreview() {
                             "🏓",
                             false
                         ),
+                        "",
                         Date().time + 1,
-                        ""
+                        Date().time + 1,
                     )
                 ),
                 Date().tomorrow() to listOf(
@@ -176,8 +178,9 @@ fun HomeScreenPreview() {
                             "🎮",
                             true
                         ),
+                        "",
                         Date().time + 2,
-                        ""
+                        Date().time + 2,
                     ),
                     MoneyRecord(
                         10,
@@ -187,8 +190,9 @@ fun HomeScreenPreview() {
                             "🏓",
                             false
                         ),
+                        "",
                         Date().time + 3,
-                        ""
+                        Date().time + 3,
                     )
                 ),
             )

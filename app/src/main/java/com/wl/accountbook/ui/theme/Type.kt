@@ -39,12 +39,14 @@ val Typography = Typography(
         fontFamily = fontFamily,
         fontWeight = FontWeight.Medium,
         lineHeight = 32.sp,
+        color = TextColor
     ),
     titleLarge = TextStyle(
         fontSize = 20.sp,
         fontFamily = fontFamily,
         fontWeight = FontWeight.Medium,
         lineHeight = 32.sp,
+        color = TextColor
     ),
     bodySmall = TextStyle(
         fontSize = 10.sp,
@@ -60,9 +62,9 @@ val Typography = Typography(
         lineHeight = 24.sp,
     ),
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
+        fontSize = 20.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),

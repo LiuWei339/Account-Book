@@ -1,6 +1,7 @@
 package com.wl.accountbook.ui
 
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 object Dimens {
 
@@ -24,4 +25,9 @@ object Dimens {
     val NavIconSize = 20.dp
     val NavBigIconSize = 56.dp
     val NavBarContentPadding = 100.dp
+
+    // add record
+    val MoneyTypeIconSize = 48.dp
+    val KeyBoardKeyHeight = 64.dp
+    val DeleteIconWidth = 24.dp
 }
