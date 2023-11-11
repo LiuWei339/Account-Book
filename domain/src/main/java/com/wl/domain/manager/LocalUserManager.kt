@@ -7,4 +7,7 @@ interface LocalUserManager {
     suspend fun saveCurrency(code: String)
 
     fun readCurrency(): Flow<String>
+
+    fun isInitialized(): Flow<Boolean>
+    suspend fun setInitialized()
 }

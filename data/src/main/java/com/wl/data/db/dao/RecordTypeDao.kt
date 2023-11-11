@@ -20,7 +20,10 @@ interface RecordTypeDao {
     @Query("SELECT * FROM DbMoneyRecordType")
     fun getAll(): Flow<List<DbMoneyRecordType>>
 
+    @Query("SELECT * FROM DbMoneyRecordType WHERE isExpenses == :isExpenses")
+    fun getRecordTypes(isExpenses: Boolean): Flow<List<DbMoneyRecordType>>
+
     @Query("SELECT * FROM DbMoneyRecordType WHERE id == :id")
-    suspend fun getRecord(id: Int): DbMoneyRecordType
+    suspend fun getRecordType(id: Int): DbMoneyRecordType
 
 }

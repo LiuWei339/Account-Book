@@ -17,11 +17,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,10 +45,12 @@ fun RecordInput(
     modifier: Modifier = Modifier,
     showTime: String = "",
     note: String = "",
+    isValidRecord: Boolean = false,
     calcState: CalculatorState,
     onCalcAction: (CalculatorAction) -> Unit = {},
     onClickDate: () -> Unit = {},
-    onChangeNote: (String) -> Unit = {}
+    onChangeNote: (String) -> Unit = {},
+    navigateUp: () -> Unit = {}
 ) {
 
     var calText = remember(calcState) {
@@ -108,35 +112,35 @@ fun RecordInput(
         ) {
 
             Text(
-                text = "Note:",
+                text = stringResource(id = R.string.record_note),
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(
-                    start = Dimens.PaddingXXLarge, end = Dimens.PaddingSmall,
-                    top = Dimens.PaddingSmall, bottom = Dimens.PaddingSmall
+                    start = Dimens.PaddingXXLarge,
+                    end = Dimens.PaddingSmall,
+                    top = Dimens.PaddingSmall,
+                    bottom = Dimens.PaddingSmall
                 )
             )
 
             BasicTextField(
-                value = note,
-                onValueChange = {
+                value = note, onValueChange = {
                     onChangeNote(it)
-                },
-                singleLine = true,
-                modifier = Modifier
+                }, singleLine = true, modifier = Modifier
                     .fillMaxWidth()
                     .padding(
                         end = Dimens.PaddingXLarge,
                         top = Dimens.PaddingXSmall,
                         bottom = Dimens.PaddingXSmall
-                    ),
-                textStyle = MaterialTheme.typography.bodyMedium
+                    ), textStyle = MaterialTheme.typography.bodyMedium
             )
         }
 
         Keyboard(
             showTime,
+            isValidRecord,
             onClickDate,
-            onCalcAction
+            onCalcAction,
+            navigateUp
         )
     }
 }
@@ -144,28 +148,34 @@ fun RecordInput(
 @Composable
 private fun Keyboard(
     showTime: String,
+    isValidRecord: Boolean,
     onSelectDate: () -> Unit,
-    onAction: (CalculatorAction) -> Unit
+    onAction: (CalculatorAction) -> Unit,
+    navigateUp: () -> Unit = {}
 ) {
 
-    val keyBoardItems = listOf(
-        KeyboardItem("1", CalculatorAction.Number(1)),
-        KeyboardItem("2", CalculatorAction.Number(2)),
-        KeyboardItem("3", CalculatorAction.Number(3)),
-        KeyboardItem("", CalculatorAction.Delete),
-        KeyboardItem("4", CalculatorAction.Number(4)),
-        KeyboardItem("5", CalculatorAction.Number(5)),
-        KeyboardItem("6", CalculatorAction.Number(6)),
-        KeyboardItem("+", CalculatorAction.Operation(CalculatorOperation.Add)),
-        KeyboardItem("7", CalculatorAction.Number(7)),
-        KeyboardItem("8", CalculatorAction.Number(8)),
-        KeyboardItem("9", CalculatorAction.Number(9)),
-        KeyboardItem("-", CalculatorAction.Operation(CalculatorOperation.Subtract)),
-        KeyboardItem(".", CalculatorAction.Decimal),
-        KeyboardItem("0", CalculatorAction.Number(0)),
-        KeyboardItem("", CalculatorAction.Delete),
-        KeyboardItem("Done", CalculatorAction.Calculate),
-    )
+    val keyBoardItems = remember {
+        listOf(
+            KeyboardItem("1", CalculatorAction.Number(1)),
+            KeyboardItem("2", CalculatorAction.Number(2)),
+            KeyboardItem("3", CalculatorAction.Number(3)),
+            KeyboardItem("", CalculatorAction.Delete),
+            KeyboardItem("4", CalculatorAction.Number(4)),
+            KeyboardItem("5", CalculatorAction.Number(5)),
+            KeyboardItem("6", CalculatorAction.Number(6)),
+            KeyboardItem("+", CalculatorAction.Operation(CalculatorOperation.Add)),
+            KeyboardItem("7", CalculatorAction.Number(7)),
+            KeyboardItem("8", CalculatorAction.Number(8)),
+            KeyboardItem("9", CalculatorAction.Number(9)),
+            KeyboardItem("-", CalculatorAction.Operation(CalculatorOperation.Subtract)),
+            KeyboardItem(".", CalculatorAction.Decimal),
+            KeyboardItem("0", CalculatorAction.Number(0)),
+            KeyboardItem("", CalculatorAction.Delete),
+            KeyboardItem("Done", CalculatorAction.Calculate),
+        )
+    }
+
+    var clickDoneTime = remember { 0L }
 
     Column(
         modifier = Modifier
@@ -182,15 +192,12 @@ private fun Keyboard(
                 for (j in 0 until 4) {
                     when {
                         i + j == 3 -> KeyBoardKey( // Timer selector
-                            "",
-                            onClick = {
+                            "", onClick = {
                                 onSelectDate()
-                            },
-                            modifier = Modifier.weight(1f)
+                            }, modifier = Modifier.weight(1f)
                         ) {
                             AutoSizeText(
-                                text = showTime,
-                                style = MaterialTheme.typography.bodyLarge
+                                text = showTime, style = MaterialTheme.typography.bodyLarge
                             )
                         }
 
@@ -213,8 +220,18 @@ private fun Keyboard(
 
                         i + j == 15 -> { // Calc button
                             KeyBoardKey(
-                                key = keyBoardItems[15].symbol,
-                                onClick = { onAction(keyBoardItems[15].action) },
+                                key = if (isValidRecord) stringResource(
+                                    id = R.string.record_keyboard_done
+                                ) else "=",
+                                onClick = {
+                                    if (System.currentTimeMillis() - clickDoneTime > 300) {
+                                        clickDoneTime = System.currentTimeMillis()
+                                        onAction(keyBoardItems[15].action)
+                                        if (isValidRecord) {
+                                            navigateUp()
+                                        }
+                                    }
+                                },
                                 modifier = Modifier
                                     .weight(1f)
                                     .background(MaterialTheme.colorScheme.secondary)
@@ -234,8 +251,7 @@ private fun Keyboard(
 }
 
 private data class KeyboardItem(
-    val symbol: String,
-    val action: CalculatorAction
+    val symbol: String, val action: CalculatorAction
 )
 
 @Composable
@@ -249,15 +265,13 @@ private fun KeyBoardKey(
         )
     }
 ) {
-    Box(
-        modifier = Modifier
-            .clickable { onClick() }
-            .aspectRatio(1.4f)
-            .background(MaterialTheme.colorScheme.background)
-            .then(modifier),
+    Box(modifier = Modifier
+        .clickable { onClick() }
+        .aspectRatio(1.4f)
+        .background(MaterialTheme.colorScheme.background)
+        .then(modifier),
         contentAlignment = Alignment.Center,
-        content = content
-    )
+        content = content)
 }
 
 @Preview

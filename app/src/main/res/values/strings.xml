@@ -5,4 +5,8 @@
     <string name="total">Total</string>
     <string name="expenses_amount">Expenses: %.2f</string>
     <string name="income_amount">Income: %.2f</string>
+
+    <!-- record -->
+    <string name="record_keyboard_done">Done</string>
+    <string name="record_note">Note:</string>
 </resources>

@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,6 +28,8 @@ import com.wl.accountbook.ui.home.HomeScreen
 import com.wl.accountbook.ui.navbar.components.BottomNavItem
 import com.wl.accountbook.ui.navbar.components.BottomNavigationBar
 import com.wl.accountbook.ui.navgraph.Destination
+import com.wl.accountbook.ui.record.AddRecordScreen
+import com.wl.accountbook.ui.record.RecordViewModel
 import com.wl.common.util.tomorrow
 import com.wl.domain.model.MoneyRecord
 import com.wl.domain.model.MoneyRecordType
@@ -47,8 +50,10 @@ fun AbNavigator() {
     val navController = rememberNavController()
     val backStackState = navController.currentBackStackEntryAsState().value
     val isBottomBarVisible = remember(backStackState) {
-        // TODO
-        true
+        (backStackState?.destination?.route ?: "") in listOf(
+            Destination.HomeDestination.route,
+            Destination.StaticsDestination.route
+        )
     }
 
     var selectedItem by rememberSaveable {
@@ -166,7 +171,13 @@ fun AbNavigator() {
             }
 
             composable(route = Destination.AddRecordDestination.route) {
-                Text(text = "AddRecordDestination Coming soon")
+                val viewModel: RecordViewModel = hiltViewModel()
+                AddRecordScreen(
+                    state = viewModel.recordState,
+                    calcState = viewModel.calcState,
+                    onAction = viewModel::onRecordAction,
+                    navigateUp = navController::navigateUp
+                )
             }
         }
     }

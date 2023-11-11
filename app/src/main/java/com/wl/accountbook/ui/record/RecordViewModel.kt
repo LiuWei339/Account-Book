@@ -4,20 +4,110 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.wl.accountbook.ui.record.calculator.CalculatorAction
 import com.wl.accountbook.ui.record.calculator.CalculatorOperation
 import com.wl.accountbook.ui.record.calculator.CalculatorState
+import com.wl.common.util.startOfTheDay
+import com.wl.data.util.Constants.MAX_DECIMAL_LENGTH
+import com.wl.data.util.Constants.MAX_NUMBER_LENGTH
+import com.wl.data.util.MoneyUtils
+import com.wl.domain.model.MoneyRecord
+import com.wl.domain.repository.RecordRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.pow
 
 @HiltViewModel
-class RecordViewModel @Inject constructor() : ViewModel() {
+class RecordViewModel @Inject constructor(
+    private val recordRepo: RecordRepo
+) : ViewModel() {
 
-    var calState by mutableStateOf(CalculatorState())
+    var calcState by mutableStateOf(CalculatorState())
         private set
 
-    fun onCalcAction(action: CalculatorAction) {
+    var recordState by mutableStateOf(RecordState(
+        showTime = "",
+        tabIndex = 0
+    ))
+        private set
+
+    init {
+        viewModelScope.launch {
+            recordState = recordState.copy(
+                recordTypes = recordRepo.getExpensesRecordTypes().first()
+            )
+        }
+    }
+
+    private fun setCalculatorState(state: CalculatorState) {
+        recordState = recordState.copy(
+            isValidRecord = state.operation == null
+                    && MoneyUtils.transToCalcMoney(state.number1, state.number1Decimal) > 0
+        )
+        calcState = state
+    }
+
+    fun onRecordAction(action: RecordAction) {
+        when(action) {
+            is RecordAction.PressTab -> {
+                if (recordState.tabIndex == action.tabIndex) return
+                if (action is RecordAction.PressExpenseTab) {
+                    recordRepo.getExpensesRecordTypes()
+                } else {
+                    recordRepo.getIncomeRecordTypes()
+                }.onEach { recordTypes ->
+                    recordState = recordState.copy(
+                        tabIndex = action.tabIndex,
+                        recordTypes = recordTypes,
+                        typeIndexId = -1
+                    )
+                }.launchIn(viewModelScope)
+            }
+            is RecordAction.SelectType -> {
+                recordState = recordState.copy(
+                    typeIndexId = action.index
+                )
+            }
+            is RecordAction.ClickDate -> {
+                recordState = recordState.copy(
+                    showDateSelector = true  // TODO whether should I use this param, or pop a dialog instead
+                )
+            }
+            is RecordAction.SelectDate -> {
+                // TODO use a data select widget
+            }
+            is RecordAction.ChangeNote -> {
+                recordState = recordState.copy(
+                    note = action.note
+                )
+            }
+            is RecordAction.RecordCalculateAction -> {
+                if (action is CalculatorAction) {
+                    onCalcAction(action)
+                }
+            }
+        }
+    }
+
+    private fun addRecord() {
+        viewModelScope.launch {
+            val record = MoneyRecord(
+                amount = MoneyUtils.transToCalcMoney(calcState.number1, calcState.number1Decimal),
+                type = recordState.recordTypes[recordState.typeIndexId],
+                note = recordState.note,
+                recordTime = System.currentTimeMillis().startOfTheDay(), // TODO use time selector
+                createTime = System.currentTimeMillis()
+            )
+            recordRepo.addOrUpdateRecord(record)
+        }
+    }
+
+    // calculation
+    private fun onCalcAction(action: CalculatorAction) {
         when (action) {
             is CalculatorAction.Number -> enterNumber(action.number)
             is CalculatorAction.Delete -> delete()
@@ -28,142 +118,124 @@ class RecordViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun enterDecimal() {
-        if (calState.operation == null) {
-            if (!calState.number1HasDecimal) {
-                calState = calState.copy(
+        if (calcState.operation == null) {
+            if (!calcState.number1HasDecimal) {
+                setCalculatorState(calcState.copy(
                     number1HasDecimal = true
-                )
+                ))
             }
         } else {
-            if (!calState.number2HasDecimal) {
-                calState = calState.copy(
+            if (!calcState.number2HasDecimal) {
+                setCalculatorState(calcState.copy(
                     number2HasDecimal = true
-                )
+                ))
             }
         }
     }
 
     private fun calculate() {
-        if (calState.operation == null) return
-
-        var calDecimal1 = 0L
-        if (calState.number1HasDecimal) {
-            var number1Decimal = calState.number1Decimal
-            number1Decimal += "0".repeat(MAX_DECIMAL_LENGTH - number1Decimal.length)
-            calDecimal1 = number1Decimal.toLong()
+        if (calcState.number2.isNotEmpty() || calcState.number2HasDecimal) {
+            doActualCalculate()
+            return
         }
-        val num1 =
-            (calState.number1.ifEmpty { "0" }).toLong() * multiplier + calDecimal1
 
-        var calDecimal2 = 0L
-        if (calState.number2HasDecimal) {
-            var number2Decimal = calState.number2Decimal
-            number2Decimal += "0".repeat(MAX_DECIMAL_LENGTH - number2Decimal.length)
-            calDecimal2 = number2Decimal.toLong()
+        if (calcState.operation != null) {
+            setCalculatorState(calcState.copy(operation = null))
+        } else {
+            addRecord()
         }
-        val num2 =
-            (calState.number2.ifEmpty { "0" }).toLong() * multiplier + calDecimal2
+    }
 
-        val res = when (calState.operation) {
+    private fun doActualCalculate() {
+        val num1 = MoneyUtils.transToCalcMoney(calcState.number1, calcState.number1Decimal)
+        val num2 = MoneyUtils.transToCalcMoney(calcState.number2, calcState.number2Decimal)
+        val res = when (calcState.operation) {
             CalculatorOperation.Add -> num1 + num2
             CalculatorOperation.Subtract -> num1 - num2
             else -> return
         }
-        val intRes = res / multiplier
-        val decimalRes = res - intRes * multiplier
-        calState = CalculatorState(
-            number1 = (res / multiplier).toString().take(MAX_NUMBER_LENGTH),
-            number1HasDecimal = decimalRes > 0,
-            number1Decimal = if (decimalRes > 0) {
-                var str = decimalRes.toString()
-                ("0".repeat(MAX_DECIMAL_LENGTH - str.length) + str).dropLastWhile { it == '0' }
-            } else "",
-        )
+        val (integer, decimal) = MoneyUtils.transToShowMoney(res)
+        setCalculatorState(CalculatorState(
+            number1 = integer,
+            number1HasDecimal = decimal.isNotEmpty(),
+            number1Decimal = decimal
+        ))
     }
 
     private fun enterOperation(operation: CalculatorOperation) {
-        if (calState.number2.isNotEmpty() || calState.number2HasDecimal) {
+        if (calcState.number2.isNotEmpty() || calcState.number2HasDecimal) {
             calculate()
-        } else if (calState.number1.isNotEmpty() || calState.number1HasDecimal) {
-            calState = calState.copy(
+        }
+        if (calcState.number1.isNotEmpty() || calcState.number1HasDecimal) {
+            setCalculatorState(calcState.copy(
                 operation = operation
-            )
+            ))
         }
     }
 
     private fun enterNumber(digit: Int) {
-        if (calState.operation == null) {
-            if (calState.number1HasDecimal) {
-                if (calState.number1Decimal.length < MAX_DECIMAL_LENGTH) {
-                    calState = calState.copy(
-                        number1Decimal = calState.number1Decimal + digit
-                    )
+        if (calcState.operation == null) {
+            if (calcState.number1HasDecimal) {
+                if (calcState.number1Decimal.length < MAX_DECIMAL_LENGTH) {
+                    setCalculatorState(calcState.copy(
+                        number1Decimal = calcState.number1Decimal + digit
+                    ))
                 }
             } else {
-                if (calState.number1.isEmpty() && digit == 0) {
+                if (calcState.number1.isEmpty() && digit == 0) {
                     return
                 }
-                if (calState.number1.length < MAX_NUMBER_LENGTH) {
-                    calState = calState.copy(
-                        number1 = calState.number1 + digit
-                    )
+                if (calcState.number1.length < MAX_NUMBER_LENGTH) {
+                    setCalculatorState(calcState.copy(
+                        number1 = calcState.number1 + digit
+                    ))
                 }
             }
         } else {
-            if (calState.number2HasDecimal) {
-                if (calState.number2Decimal.length < MAX_DECIMAL_LENGTH) {
-                    calState = calState.copy(
-                        number2Decimal = calState.number2Decimal + digit
-                    )
+            if (calcState.number2HasDecimal) {
+                if (calcState.number2Decimal.length < MAX_DECIMAL_LENGTH) {
+                    setCalculatorState(calcState.copy(
+                        number2Decimal = calcState.number2Decimal + digit
+                    ))
                 }
             } else {
-                if (calState.number2.isEmpty() && digit == 0) {
+                if (calcState.number2.isEmpty() && digit == 0) {
                     return
                 }
-                if (calState.number2.length < MAX_NUMBER_LENGTH) {
-                    calState = calState.copy(
-                        number2 = calState.number2 + digit
-                    )
+                if (calcState.number2.length < MAX_NUMBER_LENGTH) {
+                    setCalculatorState(calcState.copy(
+                        number2 = calcState.number2 + digit
+                    ))
                 }
             }
         }
     }
 
     private fun delete() {
-        when {
-            calState.number2Decimal.isNotEmpty() -> calState = calState.copy(
-                number2Decimal = calState.number2Decimal.dropLast(1)
+        val state = when {
+            calcState.number2Decimal.isNotEmpty() -> calcState.copy(
+                number2Decimal = calcState.number2Decimal.dropLast(1)
             )
-
-            calState.number2HasDecimal -> calState = calState.copy(
+            calcState.number2HasDecimal -> calcState.copy(
                 number2HasDecimal = false
             )
-
-            calState.number2.isNotEmpty() -> calState = calState.copy(
-                number2 = calState.number2.dropLast(1)
+            calcState.number2.isNotEmpty() -> calcState.copy(
+                number2 = calcState.number2.dropLast(1)
             )
-
-            calState.operation != null -> calState.copy(
+            calcState.operation != null -> calcState.copy(
                 operation = null
             )
-
-            calState.number1Decimal.isNotEmpty() -> calState = calState.copy(
-                number1Decimal = calState.number1Decimal.dropLast(1)
+            calcState.number1Decimal.isNotEmpty() -> calcState.copy(
+                number1Decimal = calcState.number1Decimal.dropLast(1)
             )
-
-            calState.number1HasDecimal -> calState = calState.copy(
+            calcState.number1HasDecimal -> calcState.copy(
                 number1HasDecimal = false
             )
-
-            calState.number1.isNotEmpty() -> calState = calState.copy(
-                number1 = calState.number1.dropLast(1)
+            calcState.number1.isNotEmpty() -> calcState.copy(
+                number1 = calcState.number1.dropLast(1)
             )
+            else -> null
         }
-    }
-
-    companion object {
-        private const val MAX_DECIMAL_LENGTH = 2
-        private const val MAX_NUMBER_LENGTH = 9
-        private val multiplier = 10.0.pow(MAX_DECIMAL_LENGTH).toLong()
+        state?.apply { setCalculatorState(this) }
     }
 }

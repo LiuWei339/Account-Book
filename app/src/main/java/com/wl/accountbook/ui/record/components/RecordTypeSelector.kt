@@ -23,6 +23,7 @@ import com.wl.domain.model.MoneyRecordType
 fun RecordTypeSelector(
     modifier: Modifier = Modifier,
     recordTypes: List<MoneyRecordType>,
+    selectedIndex: Int,
     onClickType: (Int) -> Unit
 ) {
     LazyVerticalGrid(
@@ -39,7 +40,8 @@ fun RecordTypeSelector(
             key = { index -> recordTypes[index].id }
         ) {
             SingletonRecordType(
-                type = recordTypes[it]
+                type = recordTypes[it],
+                selected = it == selectedIndex
             ) {
                 onClickType(it)
             }
@@ -50,6 +52,7 @@ fun RecordTypeSelector(
 @Composable
 private fun SingletonRecordType(
     type: MoneyRecordType,
+    selected: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
@@ -67,7 +70,13 @@ private fun SingletonRecordType(
 
         Text(
             text = type.name,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium.run {
+                if (selected) {
+                    this.copy(color = MaterialTheme.colorScheme.primary)
+                } else {
+                    this
+                }
+            }
         )
     }
 }
@@ -92,6 +101,7 @@ fun RecordTypeSelectorPreview() {
 
         RecordTypeSelector(
             recordTypes = recordTypes,
+            selectedIndex = 0,
             onClickType = {}
         )
     }
@@ -108,6 +118,7 @@ fun SingletonRecordTypePreview() {
                 "🎮",
                 true
             ),
+            selected = true,
             onClick = {}
         )
     }

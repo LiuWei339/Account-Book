@@ -7,5 +7,6 @@ data class CalculatorState(
     val number2HasDecimal: Boolean = false,
     val number1Decimal: String = "",
     val number2Decimal: String = "",
-    val operation: CalculatorOperation? = null
+    val operation: CalculatorOperation? = null,
+    val calculateText: String = ""
 )

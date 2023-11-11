@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -28,10 +29,22 @@ class LocalUserManagerImpl @Inject constructor(
             preferences[PreferenceKeys.CURRENCY] ?: ""
         }
 
+    override fun isInitialized(): Flow<Boolean> = application.dataStore.data
+        .map { preferences ->
+            preferences[PreferenceKeys.INITIALIZED] ?: false
+        }
+
+    override suspend fun setInitialized() {
+        application.dataStore.edit { settings ->
+            settings[PreferenceKeys.INITIALIZED] = true
+        }
+    }
+
 }
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = Constants.USER_SETTINGS)
 
 private object PreferenceKeys {
     val CURRENCY = stringPreferencesKey(Constants.CURRENCY_KEY)
+    val INITIALIZED = booleanPreferencesKey(Constants.INITIALIZED_KEY)
 }

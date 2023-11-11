@@ -24,7 +24,8 @@ fun AddRecordScreen(
     modifier: Modifier = Modifier,
     state: RecordState,
     calcState: CalculatorState,
-    onAction: (RecordAction) -> Unit
+    onAction: (RecordAction) -> Unit,
+    navigateUp: () -> Unit = {}
 ) {
     Box(
         modifier = modifier.fillMaxSize()
@@ -46,13 +47,14 @@ fun AddRecordScreen(
                     )
                 },
                 onClickBack = {
-                    onAction(RecordAction.Back)
+                    navigateUp()
                 }
             )
 
             RecordTypeSelector(
                 modifier = Modifier.fillMaxWidth().weight(1f),
                 recordTypes = state.recordTypes,
+                selectedIndex = state.typeIndexId,
                 onClickType = {
                     onAction(RecordAction.SelectType(it))
                 }
@@ -65,6 +67,7 @@ fun AddRecordScreen(
                         .navigationBarsPadding(),
                     showTime = state.showTime,
                     note = state.note,
+                    isValidRecord = state.isValidRecord,
                     calcState = calcState,
                     onCalcAction = {
                         onAction(it)
@@ -74,7 +77,8 @@ fun AddRecordScreen(
                     },
                     onChangeNote = {
                         onAction(RecordAction.ChangeNote(it))
-                    }
+                    },
+                    navigateUp = navigateUp
                 )
             }
 
@@ -89,9 +93,7 @@ fun AddRecordScreenPreview() {
     AccountBookTheme(dynamicColor = false) {
         AddRecordScreen(
             state = RecordState(
-                number = "0",
                 note = "note",
-                timeStamp = System.currentTimeMillis(),
                 typeIndexId = -1
             ),
             calcState = CalculatorState(),
@@ -106,9 +108,7 @@ fun AddRecordScreenWithKeyboardPreview() {
     AccountBookTheme(dynamicColor = false) {
         AddRecordScreen(
             state = RecordState(
-                number = "0",
                 note = "note",
-                timeStamp = System.currentTimeMillis(),
                 showTime = "2023/10/30",
                 typeIndexId = 0
             ),

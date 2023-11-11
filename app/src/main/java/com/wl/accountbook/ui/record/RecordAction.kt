@@ -3,8 +3,6 @@ package com.wl.accountbook.ui.record
 import com.wl.accountbook.ui.record.calculator.CalculatorAction
 
 sealed class RecordAction{
-    object Back: RecordAction()
-
     // tabs
     sealed class PressTab(val tabIndex: Int): RecordAction()
     object PressExpenseTab: PressTab(0)

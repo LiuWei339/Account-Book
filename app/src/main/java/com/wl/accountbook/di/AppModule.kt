@@ -27,9 +27,12 @@ object AppModule {
             .build()
     }
 
-
+    @Provides
+    @Singleton
     fun provideRecordDao(db: AccountBookDatabase) = db.recordDao()
 
+    @Provides
+    @Singleton
     fun provideRecordTypeDao(db: AccountBookDatabase) = db.recordTypeDao()
 
 }
