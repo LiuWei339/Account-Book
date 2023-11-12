@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,31 +31,36 @@ import com.wl.accountbook.ui.home.components.DayRecords
 import com.wl.accountbook.ui.home.components.HomeTopBar
 import com.wl.accountbook.ui.theme.AccountBookTheme
 import com.wl.common.util.tomorrow
+import com.wl.data.util.MoneyUtils
 import com.wl.domain.model.MoneyRecord
 import com.wl.domain.model.MoneyRecordType
 import java.util.Date
 import kotlin.math.abs
+import kotlin.reflect.KFunction1
 
 @Composable
 fun HomeScreen(
-    recordsByDay: List<Pair<Date, List<MoneyRecord>>>
+    modifier: Modifier = Modifier,
+    state: HomeState,
+    onAction: (HomeAction) -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().then(modifier)
     ) {
         StatusBarFiller()
-        HomeTopBar("Oct 2023", {}, {})
-        StatesOfTheMonth(10000000L, 20L)
+        HomeTopBar(
+            date = state.titleTime,
+            onDateClick = { onAction(HomeAction.ClickDate) },
+            onSearchClick = { onAction(HomeAction.ClickSearch) }
+        )
 
-        val sortedRecordsByDay = remember(recordsByDay) {
-            recordsByDay.sortedByDescending { it.first.time }
-        }
+        StatesOfTheMonth(state.totalIncome, state.totalExpenses)
 
         LazyColumn(
             contentPadding = PaddingValues(bottom = Dimens.NavBarContentPadding)
         ) {
             items(
-                items = recordsByDay,
+                items = state.recordsByDay,
                 key = { it.first }
             ) { (date, records) ->
                 DayRecords(
@@ -117,19 +121,20 @@ fun StatesOfTheMonth(
                 .fillMaxWidth()
             SingleStateOfTheMonth(
                 stringResource(id = R.string.expenses),
-                "$$expenses",
+                MoneyUtils.transToActualMoney(expenses),
                 modifier
             )
             Spacer(modifier = Modifier.width(Dimens.PaddingExLarge))
             SingleStateOfTheMonth(
                 stringResource(id = R.string.income),
-                "$$income",
+                MoneyUtils.transToActualMoney(income),
                 modifier
             )
             Spacer(modifier = Modifier.width(Dimens.PaddingExLarge))
             SingleStateOfTheMonth(
                 stringResource(id = R.string.total),
-                "${if (expenses > income) "-" else ""}$${abs(income - expenses)}",
+                "${if (expenses > income) "-" else ""}" +
+                        "${MoneyUtils.transToActualMoney(abs(income - expenses))}",
                 modifier
             )
             Spacer(modifier = Modifier.width(Dimens.PaddingExLarge))
@@ -142,60 +147,64 @@ fun StatesOfTheMonth(
 fun HomeScreenPreview() {
     AccountBookTheme(dynamicColor = false) {
         HomeScreen(
-            listOf(
-                Date() to listOf(
-                    MoneyRecord(
-                        20,
-                        MoneyRecordType(
-                            1,
-                            "Food",
-                            "🎮",
-                            true
+            state = HomeState(
+                titleTime = "Oct 2023",
+                recordsByDay = listOf(
+                    Date() to listOf(
+                        MoneyRecord(
+                            20,
+                            MoneyRecordType(
+                                1,
+                                "Food",
+                                "🎮",
+                                true
+                            ),
+                            "",
+                            Date().time,
+                            Date().time,
                         ),
-                        "",
-                        Date().time,
-                        Date().time,
+                        MoneyRecord(
+                            10,
+                            MoneyRecordType(
+                                2,
+                                "Food1",
+                                "🏓",
+                                false
+                            ),
+                            "",
+                            Date().time + 1,
+                            Date().time + 1,
+                        )
                     ),
-                    MoneyRecord(
-                        10,
-                        MoneyRecordType(
-                            2,
-                            "Food1",
-                            "🏓",
-                            false
+                    Date().tomorrow() to listOf(
+                        MoneyRecord(
+                            20,
+                            MoneyRecordType(
+                                1,
+                                "Food",
+                                "🎮",
+                                true
+                            ),
+                            "",
+                            Date().time + 2,
+                            Date().time + 2,
                         ),
-                        "",
-                        Date().time + 1,
-                        Date().time + 1,
-                    )
-                ),
-                Date().tomorrow() to listOf(
-                    MoneyRecord(
-                        20,
-                        MoneyRecordType(
-                            1,
-                            "Food",
-                            "🎮",
-                            true
-                        ),
-                        "",
-                        Date().time + 2,
-                        Date().time + 2,
+                        MoneyRecord(
+                            10,
+                            MoneyRecordType(
+                                2,
+                                "Food1",
+                                "🏓",
+                                false
+                            ),
+                            "",
+                            Date().time + 3,
+                            Date().time + 3,
+                        )
                     ),
-                    MoneyRecord(
-                        10,
-                        MoneyRecordType(
-                            2,
-                            "Food1",
-                            "🏓",
-                            false
-                        ),
-                        "",
-                        Date().time + 3,
-                        Date().time + 3,
-                    )
-                ),
-            )
+                )
+            ),
+            onAction = { }
         )
     }
 }

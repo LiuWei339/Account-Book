@@ -24,4 +24,13 @@ object MoneyUtils {
         } else ""
         return Pair(integer, decimal)
     }
+
+    fun transToActualMoney(number: Long): String {
+        val (integer, decimal) = transToShowMoney(number)
+        return "$integer${if (decimal.isNotEmpty()) ".$decimal" else ""}"
+    }
+}
+
+fun Long.toActualMoney(): String {
+    return MoneyUtils.transToActualMoney(this)
 }

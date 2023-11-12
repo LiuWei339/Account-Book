@@ -25,27 +25,26 @@ import androidx.navigation.compose.rememberNavController
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.common.StatusBarFiller
 import com.wl.accountbook.ui.home.HomeScreen
+import com.wl.accountbook.ui.home.HomeViewModel
 import com.wl.accountbook.ui.navbar.components.BottomNavItem
 import com.wl.accountbook.ui.navbar.components.BottomNavigationBar
 import com.wl.accountbook.ui.navgraph.Destination
 import com.wl.accountbook.ui.record.AddRecordScreen
 import com.wl.accountbook.ui.record.RecordViewModel
-import com.wl.common.util.tomorrow
-import com.wl.domain.model.MoneyRecord
-import com.wl.domain.model.MoneyRecordType
-import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AbNavigator() {
 
-    val navItems = listOf(
-        BottomNavItem(icon = R.drawable.ic_home, text = "Home"),
-        BottomNavItem(icon = R.drawable.ic_statics, text = "Statics"),
-        BottomNavItem(icon = R.drawable.ic_add_record, text = "Add"),
-        BottomNavItem(icon = R.drawable.ic_home, text = "Home1"), // TODO
-        BottomNavItem(icon = R.drawable.ic_home, text = "Home2"),
-    )
+    val navItems = remember {
+        listOf(
+            BottomNavItem(icon = R.drawable.ic_home, label = R.string.record),
+            BottomNavItem(icon = R.drawable.ic_statics, label = R.string.stats),
+            BottomNavItem(icon = R.drawable.ic_add_record, label = R.string.add),
+            BottomNavItem(icon = R.drawable.ic_home, label = R.string.record), // TODO
+            BottomNavItem(icon = R.drawable.ic_home, label = R.string.record),
+        )
+    }
 
     val navController = rememberNavController()
     val backStackState = navController.currentBackStackEntryAsState().value
@@ -96,63 +95,10 @@ fun AbNavigator() {
             modifier = Modifier.padding(bottom = bottomPadding)
         ) {
             composable(route = Destination.HomeDestination.route) {
-                // TODO add a HomeViewModel
-
+                val viewModel: HomeViewModel = hiltViewModel()
                 HomeScreen(
-                    listOf(
-                        Date() to listOf(
-                            MoneyRecord(
-                                20,
-                                MoneyRecordType(
-                                    1,
-                                    "Food",
-                                    "🎮",
-                                    true
-                                ),
-                                "",
-                                Date().time,
-                                Date().time,
-                            ),
-                            MoneyRecord(
-                                10,
-                                MoneyRecordType(
-                                    2,
-                                    "Food1",
-                                    "🏓",
-                                    false
-                                ),
-                                "",
-                                Date().time + 1,
-                                Date().time + 1,
-                            )
-                        ),
-                        Date().tomorrow() to listOf(
-                            MoneyRecord(
-                                20,
-                                MoneyRecordType(
-                                    1,
-                                    "Food",
-                                    "🎮",
-                                    true
-                                ),
-                                "",
-                                Date().time + 2,
-                                Date().time + 2,
-                            ),
-                            MoneyRecord(
-                                10,
-                                MoneyRecordType(
-                                    2,
-                                    "Food1",
-                                    "🏓",
-                                    false
-                                ),
-                                "",
-                                Date().time + 3,
-                                Date().time + 3,
-                            )
-                        ),
-                    )
+                    state = viewModel.state,
+                    onAction = viewModel::onAction
                 )
             }
 

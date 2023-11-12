@@ -3,6 +3,7 @@ package com.wl.domain.repository
 import com.wl.domain.model.MoneyRecord
 import com.wl.domain.model.MoneyRecordType
 import kotlinx.coroutines.flow.Flow
+import java.util.Date
 
 interface RecordRepo {
     // record types
@@ -13,4 +14,5 @@ interface RecordRepo {
 
     // record
     suspend fun addOrUpdateRecord(moneyRecord: MoneyRecord)
+    fun getRecords(start: Long, end: Long): Flow<List<MoneyRecord>>
 }

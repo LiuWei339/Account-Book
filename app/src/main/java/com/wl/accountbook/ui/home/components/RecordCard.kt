@@ -23,8 +23,8 @@ import com.wl.accountbook.ui.Dimens
 import com.wl.accountbook.ui.common.HorizontalDivider
 import com.wl.accountbook.ui.theme.AccountBookTheme
 import com.wl.accountbook.ui.theme.TextGray
-import com.wl.accountbook.ui.util.toActualMoney
-import com.wl.common.util.format
+import com.wl.common.util.dayWithWeekFormat
+import com.wl.data.util.toActualMoney
 import com.wl.domain.model.MoneyRecord
 import com.wl.domain.model.MoneyRecordType
 import java.util.Date
@@ -53,14 +53,14 @@ fun SingleRecordCard(
 
                 // type or note
                 Text(
-                    text = "${record.note.ifEmpty { record.type.name }}",
+                    text = record.note.ifEmpty { record.type.name },
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
         }
 
         Text(
-            text = "${if (record.type.isExpenses) "-" else ""}${record.amount}",
+            text = "${if (record.type.isExpenses) "-" else ""}${record.amount.toActualMoney()}",
             style = MaterialTheme.typography.bodyMedium.copy(color = TextGray)
         )
     }
@@ -69,8 +69,8 @@ fun SingleRecordCard(
 @Composable
 fun DayRecordsTitle(
     date: Date,
-    income: Double,
-    expense: Double,
+    income: String,
+    expense: String,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -80,9 +80,9 @@ fun DayRecordsTitle(
     ) {
 
         Text(
-            text = date.format("dd EEE"),
+            text = date.dayWithWeekFormat(),
             style = MaterialTheme.typography.bodySmall
-        ) //TODO
+        )
 
         Spacer(modifier = Modifier.weight(1f))
 
@@ -119,17 +119,13 @@ fun DayRecords(
             records
                 .filter { !it.type.isExpenses }
                 .sumOf { it.amount }
-                .toDouble() / 100.0
+                .toActualMoney()
         }
         val expense = remember(records) {
             records
                 .filter { it.type.isExpenses }
                 .sumOf { it.amount }
                 .toActualMoney()
-        }
-
-        val sortedRecords = remember(records) {
-            records.sortedByDescending { it.createTime }
         }
 
         DayRecordsTitle(
@@ -140,7 +136,7 @@ fun DayRecords(
         HorizontalDivider(1f)
 
         Column {
-            sortedRecords.forEach { record ->
+            records.forEach { record ->
                 SingleRecordCard(
                     record,
                     modifier = Modifier.padding(horizontal = Dimens.PaddingLarge)

@@ -4,9 +4,15 @@
     <string name="expenses">支出</string>
     <string name="income">收入</string>
     <string name="total">总计</string>
-    <string name="expenses_amount">支出: %.2f</string>
-    <string name="income_amount">收入: %.2f</string>
+    <string name="expenses_amount">支出: %s</string>
+    <string name="income_amount">收入: %s</string>
 
+    <!-- navigation bar -->
+    <string name="record">账单</string>
+    <string name="stats">统计</string>
+    <string name="add">记录</string>
+
+    <!-- record -->
     <string name="record_keyboard_done">完成</string>
     <string name="record_note">备注：</string>
 </resources>

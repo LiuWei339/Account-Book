@@ -3,11 +3,12 @@ package com.wl.data.db.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.MapInfo
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.wl.data.db.entity.DbMoneyRecord
-import com.wl.data.db.entity.DbMoneyWithRecord
+import com.wl.data.db.entity.DbMoneyRecordAndType
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -26,6 +27,7 @@ interface RecordDao {
     suspend fun delete(record: DbMoneyRecord)
 
     @Transaction
-    @Query("SELECT * FROM DbMoneyRecord WHERE recordTime <= :end AND recordTime >= :start")
-    fun getRecordsWithType(start: Long, end: Long): Flow<List<DbMoneyWithRecord>>
+    @Query("SELECT * FROM DbMoneyRecord WHERE recordTime <= :end AND recordTime >= :start " +
+            "ORDER BY recordTime DESC, createTime DESC")
+    fun getRecordsAndType(start: Long, end: Long): Flow<List<DbMoneyRecordAndType>>
 }

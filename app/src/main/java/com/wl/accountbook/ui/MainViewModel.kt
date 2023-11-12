@@ -25,12 +25,7 @@ class MainViewModel @Inject constructor(
         private set
 
     init {
-        Log.d("test1", "main viewmodel init")
         viewModelScope.launch {
-
-            Log.d("test1", "viewModelScope launch ")
-            Log.d("test1", "current state: ${localUserManager.isInitialized().first()}")
-            Log.d("test1", "viewModelScope launch1 ")
 
             if (!localUserManager.isInitialized().first()) {
                 recordRepo.addOrUpdateType(
@@ -53,14 +48,11 @@ class MainViewModel @Inject constructor(
                     )
                 )
 
-                Log.d("test1", "init db")
-
                 localUserManager.setInitialized()
             }
 
             delay(300)
             showSplash = false
-            Log.d("test1", "showSplash change to $showSplash")
         }
     }
 }

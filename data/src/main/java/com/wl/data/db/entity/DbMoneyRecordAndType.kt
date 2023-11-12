@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.wl.domain.model.MoneyRecord
 
-data class DbMoneyWithRecord(
+data class DbMoneyRecordAndType(
     @Embedded val record: DbMoneyRecord,
     @Relation(
         parentColumn = "typeId",

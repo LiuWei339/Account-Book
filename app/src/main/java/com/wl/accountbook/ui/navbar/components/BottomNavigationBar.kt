@@ -1,6 +1,7 @@
 package com.wl.accountbook.ui.navbar.components
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
@@ -100,7 +102,7 @@ fun BigBottomNavigationBarItem(
         )
         Spacer(modifier = Modifier.height(Dimens.PaddingSmall))
         Text(
-            text = item.text, style = MaterialTheme.typography.labelSmall,
+            text = stringResource(item.label), style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onBackground
         )
     }
@@ -133,7 +135,7 @@ fun BottomNavigationBarItem(
         )
         Spacer(modifier = Modifier.height(Dimens.PaddingSmall))
         Text(
-            text = item.text, style = MaterialTheme.typography.labelSmall,
+            text = stringResource(id = item.label), style = MaterialTheme.typography.labelSmall,
             color = if (isSelected) MaterialTheme.colorScheme.primary
             else MaterialTheme.colorScheme.onBackground
         )
@@ -141,7 +143,7 @@ fun BottomNavigationBarItem(
 }
 
 data class BottomNavItem(
-    @DrawableRes val icon: Int, val text: String
+    @DrawableRes val icon: Int, @StringRes val label: Int
 )
 
 @Preview
@@ -149,11 +151,11 @@ data class BottomNavItem(
 fun BottomNavigationBarPreview() {
     AccountBookTheme(dynamicColor = false) {
         BottomNavigationBar(items = listOf(
-            BottomNavItem(icon = R.drawable.ic_home, text = "Home"),
-            BottomNavItem(icon = R.drawable.ic_statics, text = "Statics"),
-            BottomNavItem(icon = R.drawable.ic_add_record, text = "Add"),
-            BottomNavItem(icon = R.drawable.ic_home, text = "Home1"),
-            BottomNavItem(icon = R.drawable.ic_home, text = "Home2"),
+            BottomNavItem(icon = R.drawable.ic_home, label = R.string.record),
+            BottomNavItem(icon = R.drawable.ic_statics, label = R.string.stats),
+            BottomNavItem(icon = R.drawable.ic_add_record, label = R.string.add),
+            BottomNavItem(icon = R.drawable.ic_home, label = R.string.add),
+            BottomNavItem(icon = R.drawable.ic_home, label = R.string.add),
         ), 0, {})
     }
 }

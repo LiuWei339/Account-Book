@@ -8,7 +8,9 @@ import com.wl.domain.model.MoneyRecord
 import com.wl.domain.model.MoneyRecordType
 import com.wl.domain.repository.RecordRepo
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import java.util.Date
 import javax.inject.Inject
 
 class RecordRepoImpl @Inject constructor(
@@ -54,4 +56,11 @@ class RecordRepoImpl @Inject constructor(
             }
         )
     }
+
+    override fun getRecords(start: Long, end: Long): Flow<List<MoneyRecord>> {
+        return recordDao.getRecordsAndType(start, end).map { list ->
+            list.map { it.toMoneyRecord() }
+        }
+    }
+
 }
