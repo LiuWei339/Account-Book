@@ -8,14 +8,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
 import com.wl.accountbook.ui.common.NavigationBarFiller
@@ -34,13 +36,16 @@ import com.wl.accountbook.ui.theme.LightGrayBg
 
 @Composable
 fun BottomNavigationBar(
-    items: List<BottomNavItem>, selected: Int, onItemClick: (Int) -> Unit
+    modifier: Modifier = Modifier,
+    items: List<BottomNavItem>,
+    selectedRoute: String,
+    onItemClick: (route: String) -> Unit
 ) {
     val middleIndex = remember(items) {
         items.size / 2
     }
 
-    Column {
+    Column(modifier = modifier) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -54,25 +59,24 @@ fun BottomNavigationBar(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 items.forEachIndexed { index, item ->
-                    if (index != middleIndex) {
+                    if (index == middleIndex) {
+                        Box(modifier = modifier.weight(1f))
+                    } else {
                         BottomNavigationBarItem(
-                            item,
-                            index == selected,
+                            item = item,
+                            isSelected = item.route == selectedRoute,
+                            modifier = Modifier.weight(1f),
                             onClick = {
-                                onItemClick(index)
+                                onItemClick(item.route)
                             }
                         )
-                    } else {
-                        Box(modifier = Modifier.width(Dimens.NavBigIconSize))
                     }
                 }
             }
 
             BigBottomNavigationBarItem(
                 items[middleIndex],
-                modifier = Modifier
-                    .align(Alignment.TopCenter),
-                onClick = { onItemClick(middleIndex) }
+                onClick = { onItemClick(items[middleIndex].route) }
             )
         }
 
@@ -82,30 +86,36 @@ fun BottomNavigationBar(
 }
 
 @Composable
-fun BigBottomNavigationBarItem(
+fun BoxScope.BigBottomNavigationBarItem(
     item: BottomNavItem,
-    modifier: Modifier,
     onClick: () -> Unit
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .padding(bottom = Dimens.PaddingLarge)
+
+    Image(
+        painter = painterResource(id = item.icon),
+        contentDescription = null,
+        modifier = Modifier
+            .size(Dimens.NavBigIconSize)
+            .align(Alignment.TopCenter)
+            .offset(y = 0.dp - Dimens.NavBigIconSize / 2)
             .clickable {
                 onClick()
             }
-    ) {
-        Image(
-            painter = painterResource(id = item.icon),
-            contentDescription = null,
-            modifier = Modifier.size(Dimens.NavBigIconSize),
-        )
-        Spacer(modifier = Modifier.height(Dimens.PaddingSmall))
-        Text(
-            text = stringResource(item.label), style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-    }
+    )
+
+    Text(
+        text = stringResource(id = item.label),
+        style = MaterialTheme.typography.labelSmall,
+        color = MaterialTheme.colorScheme.onBackground,
+        modifier = Modifier.align(Alignment.BottomCenter)
+            .padding(bottom = Dimens.PaddingLarge)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) {
+                onClick()
+            }
+    )
 }
 
 @Composable
@@ -143,7 +153,7 @@ fun BottomNavigationBarItem(
 }
 
 data class BottomNavItem(
-    @DrawableRes val icon: Int, @StringRes val label: Int
+    @DrawableRes val icon: Int, @StringRes val label: Int, val route: String
 )
 
 @Preview
@@ -151,11 +161,11 @@ data class BottomNavItem(
 fun BottomNavigationBarPreview() {
     AccountBookTheme(dynamicColor = false) {
         BottomNavigationBar(items = listOf(
-            BottomNavItem(icon = R.drawable.ic_home, label = R.string.record),
-            BottomNavItem(icon = R.drawable.ic_statics, label = R.string.stats),
-            BottomNavItem(icon = R.drawable.ic_add_record, label = R.string.add),
-            BottomNavItem(icon = R.drawable.ic_home, label = R.string.add),
-            BottomNavItem(icon = R.drawable.ic_home, label = R.string.add),
-        ), 0, {})
+            BottomNavItem(icon = R.drawable.ic_home, label = R.string.record, route = "H"),
+            BottomNavItem(icon = R.drawable.ic_statics, label = R.string.stats, route = ""),
+            BottomNavItem(icon = R.drawable.ic_add_record, label = R.string.add, route = ""),
+            BottomNavItem(icon = R.drawable.ic_home, label = R.string.add, route = ""),
+            BottomNavItem(icon = R.drawable.ic_home, label = R.string.add, route = ""),
+        ), selectedRoute = "H", onItemClick = {})
     }
 }

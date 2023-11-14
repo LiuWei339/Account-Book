@@ -24,7 +24,6 @@ object Dimens {
     val DayRecordHeight = 24.dp
     val NavIconSize = 20.dp
     val NavBigIconSize = 56.dp
-    val NavBarContentPadding = 100.dp
 
     // add record
     val MoneyTypeIconSize = 48.dp

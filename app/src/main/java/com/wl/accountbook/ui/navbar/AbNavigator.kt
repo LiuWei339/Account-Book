@@ -38,11 +38,31 @@ fun AbNavigator() {
 
     val navItems = remember {
         listOf(
-            BottomNavItem(icon = R.drawable.ic_home, label = R.string.record),
-            BottomNavItem(icon = R.drawable.ic_statics, label = R.string.stats),
-            BottomNavItem(icon = R.drawable.ic_add_record, label = R.string.add),
-            BottomNavItem(icon = R.drawable.ic_home, label = R.string.record), // TODO
-            BottomNavItem(icon = R.drawable.ic_home, label = R.string.record),
+            BottomNavItem(
+                icon = R.drawable.ic_home,
+                label = R.string.record,
+                route = Destination.HomeDestination.route
+            ),
+            BottomNavItem(
+                icon = R.drawable.ic_statics,
+                label = R.string.stats,
+                route = Destination.StaticsDestination.route
+            ),
+            BottomNavItem(
+                icon = R.drawable.ic_add_record,
+                label = R.string.add,
+                route = Destination.AddRecordDestination.route
+            ),
+            BottomNavItem(
+                icon = R.drawable.ic_home,
+                label = R.string.record,
+                route = Destination.HomeDestination.route
+            ), // TODO
+            BottomNavItem(
+                icon = R.drawable.ic_home,
+                label = R.string.record,
+                route = Destination.HomeDestination.route
+            ),
         )
     }
 
@@ -55,15 +75,10 @@ fun AbNavigator() {
         )
     }
 
-    var selectedItem by rememberSaveable {
-        mutableStateOf(0)
+    var selectedRoute by rememberSaveable {
+        mutableStateOf(navItems[0].route)
     }
-    selectedItem = when (backStackState?.destination?.route) {
-        Destination.HomeDestination.route -> NavTabs.HOME.ordinal
-        Destination.StaticsDestination.route -> NavTabs.STATICS.ordinal
-        Destination.AddRecordDestination.route -> NavTabs.ADD_RECORD.ordinal
-        else -> 0
-    }
+    selectedRoute = backStackState?.destination?.route ?: ""
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -71,14 +86,8 @@ fun AbNavigator() {
             if (isBottomBarVisible) {
                 BottomNavigationBar(
                     items = navItems,
-                    selected = selectedItem,
-                    onItemClick = { index ->
-                        val route = when (index) {
-                            NavTabs.HOME.ordinal -> Destination.HomeDestination.route
-                            NavTabs.STATICS.ordinal -> Destination.StaticsDestination.route
-                            NavTabs.ADD_RECORD.ordinal -> Destination.AddRecordDestination.route
-                            else -> Destination.HomeDestination.route // TODO add other tabs
-                        }
+                    selectedRoute = selectedRoute,
+                    onItemClick = { route ->
                         navigateToTab(
                             navController,
                             route
@@ -127,10 +136,6 @@ fun AbNavigator() {
             }
         }
     }
-}
-
-enum class NavTabs {
-    HOME, STATICS, ADD_RECORD
 }
 
 private fun navigateToTab(navController: NavController, route: String) {

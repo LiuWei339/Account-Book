@@ -56,9 +56,7 @@ fun HomeScreen(
 
         StatesOfTheMonth(state.totalIncome, state.totalExpenses)
 
-        LazyColumn(
-            contentPadding = PaddingValues(bottom = Dimens.NavBarContentPadding)
-        ) {
+        LazyColumn {
             items(
                 items = state.recordsByDay,
                 key = { it.first }
