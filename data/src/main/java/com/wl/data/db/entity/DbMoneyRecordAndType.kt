@@ -2,7 +2,7 @@ package com.wl.data.db.entity
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.wl.domain.model.MoneyRecord
+import com.wl.domain.model.MoneyRecordAndType
 
 data class DbMoneyRecordAndType(
     @Embedded val record: DbMoneyRecord,
@@ -12,8 +12,8 @@ data class DbMoneyRecordAndType(
     )
     val type: DbMoneyRecordType
 ) {
-    fun toMoneyRecord(): MoneyRecord {
-        return MoneyRecord(
+    fun toMoneyRecordAndType(): MoneyRecordAndType {
+        return MoneyRecordAndType(
             amount = record.amount,
             type = type.toMoneyRecordType(),
             note = record.note,

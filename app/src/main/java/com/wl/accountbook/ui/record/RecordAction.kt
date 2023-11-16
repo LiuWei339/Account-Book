@@ -10,6 +10,7 @@ sealed class RecordAction{
 
     data class SelectType(val index: Int): RecordAction()
     object ClickDate: RecordAction()
+    object CloseDatePicker: RecordAction()
     data class SelectDate(val timeStamp: Long): RecordAction()
     data class ChangeNote(val note: String): RecordAction()
     abstract class RecordCalculateAction: RecordAction()

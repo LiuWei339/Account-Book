@@ -1,5 +1,6 @@
 package com.wl.accountbook.ui.home.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,17 +24,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
 import com.wl.accountbook.ui.common.HorizontalDivider
+import com.wl.accountbook.ui.home.HomeAction
 import com.wl.accountbook.ui.theme.AccountBookTheme
 import com.wl.accountbook.ui.theme.TextGray
 import com.wl.common.util.dayWithWeekFormat
 import com.wl.data.util.toActualMoney
-import com.wl.domain.model.MoneyRecord
+import com.wl.domain.model.MoneyRecordAndType
 import com.wl.domain.model.MoneyRecordType
 import java.util.Date
 
 @Composable
 fun SingleRecordCard(
-    record: MoneyRecord,
+    record: MoneyRecordAndType,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -108,8 +112,9 @@ fun DayRecordsTitle(
 @Composable
 fun DayRecords(
     date: Date,
-    records: List<MoneyRecord>,
-    modifier: Modifier = Modifier
+    records: List<MoneyRecordAndType>,
+    modifier: Modifier = Modifier,
+    onAction: (HomeAction) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -139,12 +144,33 @@ fun DayRecords(
             records.forEach { record ->
                 SingleRecordCard(
                     record,
-                    modifier = Modifier.padding(horizontal = Dimens.PaddingLarge)
+                    modifier = Modifier.padding(horizontal = Dimens.PaddingLarge).clickable {
+                        onAction(HomeAction.PressRecord(record))
+                    }
                 )
             }
         }
     }
+}
 
+@Composable
+fun DaysRecords(
+    recordsByDay: List<Pair<Date, List<MoneyRecordAndType>>>,
+    modifier: Modifier = Modifier,
+    onAction: (HomeAction) -> Unit
+) {
+    LazyColumn {
+        items(
+            items = recordsByDay,
+            key = { it.first }
+        ) { (date, records) ->
+            DayRecords(
+                date = date,
+                records = records,
+                onAction = onAction
+            )
+        }
+    }
 }
 
 @Preview
@@ -152,7 +178,7 @@ fun DayRecords(
 fun SingleRecordCardPreview() {
     AccountBookTheme() {
         SingleRecordCard(
-            MoneyRecord(
+            MoneyRecordAndType(
                 20,
                 MoneyRecordType(
                     1,
@@ -175,7 +201,7 @@ fun DayRecordsPreview() {
         DayRecords(
             date = Date(),
             records = listOf(
-                MoneyRecord(
+                MoneyRecordAndType(
                     20,
                     MoneyRecordType(
                         1,
@@ -187,7 +213,7 @@ fun DayRecordsPreview() {
                     Date().time,
                     Date().time,
                 ),
-                MoneyRecord(
+                MoneyRecordAndType(
                     10,
                     MoneyRecordType(
                         2,
@@ -199,7 +225,8 @@ fun DayRecordsPreview() {
                     Date().time + 1,
                     Date().time + 1,
                 )
-            )
+            ),
+            onAction = {}
         )
     }
 }

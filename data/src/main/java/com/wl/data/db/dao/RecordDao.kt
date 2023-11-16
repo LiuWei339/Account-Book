@@ -20,6 +20,9 @@ interface RecordDao {
     @Query("SELECT * FROM DbMoneyRecord WHERE recordTime <= :end AND recordTime >= :start")
     fun getRecords(start: Long, end: Long): Flow<List<DbMoneyRecord>>
 
+    @Query("SELECT * FROM DbMoneyRecord WHERE recordTime <= :end AND recordTime >= :start ORDER BY recordTime DESC, createTime DESC")
+    fun getSortedRecords(start: Long, end: Long): Flow<List<DbMoneyRecord>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrUpdate(record: DbMoneyRecord)
 
@@ -29,5 +32,5 @@ interface RecordDao {
     @Transaction
     @Query("SELECT * FROM DbMoneyRecord WHERE recordTime <= :end AND recordTime >= :start " +
             "ORDER BY recordTime DESC, createTime DESC")
-    fun getRecordsAndType(start: Long, end: Long): Flow<List<DbMoneyRecordAndType>>
+    fun getRecordsAndTypes(start: Long, end: Long): Flow<List<DbMoneyRecordAndType>>
 }

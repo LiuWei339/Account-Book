@@ -1,7 +1,9 @@
 package com.wl.common.util
 
 import android.text.format.DateUtils
+import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 
@@ -23,6 +25,9 @@ fun Date.format(pattern: String): String {
 
 fun Date.dayWithWeekFormat() = DateTimeUtil.dayWithWeekFormat(this)
 fun Date.monthYearFormat() = DateTimeUtil.monthYearFormat(this)
+fun Date.toLocalDayString(timeStyle: Int = DateFormat.SHORT): String {
+    return DateFormat.getDateInstance(timeStyle).format(this)
+}
 
 
 fun Long.toDate(): Date {

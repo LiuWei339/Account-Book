@@ -9,16 +9,18 @@ import com.wl.accountbook.ui.record.calculator.CalculatorAction
 import com.wl.accountbook.ui.record.calculator.CalculatorOperation
 import com.wl.accountbook.ui.record.calculator.CalculatorState
 import com.wl.common.util.startOfTheDay
+import com.wl.common.util.toLocalDayString
 import com.wl.data.util.Constants.MAX_DECIMAL_LENGTH
 import com.wl.data.util.Constants.MAX_NUMBER_LENGTH
 import com.wl.data.util.MoneyUtils
-import com.wl.domain.model.MoneyRecord
+import com.wl.domain.model.MoneyRecordAndType
 import com.wl.domain.repository.RecordRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,7 +32,7 @@ class RecordViewModel @Inject constructor(
         private set
 
     var recordState by mutableStateOf(RecordState(
-        showTime = "",
+        showTime = Date().toLocalDayString(),
         tabIndex = 0
     ))
         private set
@@ -74,11 +76,19 @@ class RecordViewModel @Inject constructor(
             }
             is RecordAction.ClickDate -> {
                 recordState = recordState.copy(
-                    showDateSelector = true  // TODO whether should I use this param, or pop a dialog instead
+                    showDateSelector = true
+                )
+            }
+            is RecordAction.CloseDatePicker -> {
+                recordState = recordState.copy(
+                    showDateSelector = false
                 )
             }
             is RecordAction.SelectDate -> {
-                // TODO use a data select widget
+                recordState = recordState.copy(
+                    showTime = Date(action.timeStamp).toLocalDayString(),
+                    showDateSelector = false
+                )
             }
             is RecordAction.ChangeNote -> {
                 recordState = recordState.copy(
@@ -95,7 +105,7 @@ class RecordViewModel @Inject constructor(
 
     private fun addRecord() {
         viewModelScope.launch {
-            val record = MoneyRecord(
+            val record = MoneyRecordAndType(
                 amount = MoneyUtils.transToCalcMoney(calcState.number1, calcState.number1Decimal),
                 type = recordState.recordTypes[recordState.typeIndexId],
                 note = recordState.note,

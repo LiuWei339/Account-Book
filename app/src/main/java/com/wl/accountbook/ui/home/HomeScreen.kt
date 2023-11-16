@@ -3,7 +3,6 @@ package com.wl.accountbook.ui.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -28,15 +27,15 @@ import com.wl.accountbook.ui.Dimens
 import com.wl.accountbook.ui.common.AutoSizeText
 import com.wl.accountbook.ui.common.StatusBarFiller
 import com.wl.accountbook.ui.home.components.DayRecords
+import com.wl.accountbook.ui.home.components.DaysRecords
 import com.wl.accountbook.ui.home.components.HomeTopBar
 import com.wl.accountbook.ui.theme.AccountBookTheme
 import com.wl.common.util.tomorrow
 import com.wl.data.util.MoneyUtils
-import com.wl.domain.model.MoneyRecord
+import com.wl.domain.model.MoneyRecordAndType
 import com.wl.domain.model.MoneyRecordType
 import java.util.Date
 import kotlin.math.abs
-import kotlin.reflect.KFunction1
 
 @Composable
 fun HomeScreen(
@@ -56,17 +55,7 @@ fun HomeScreen(
 
         StatesOfTheMonth(state.totalIncome, state.totalExpenses)
 
-        LazyColumn {
-            items(
-                items = state.recordsByDay,
-                key = { it.first }
-            ) { (date, records) ->
-                DayRecords(
-                    date = date,
-                    records = records
-                )
-            }
-        }
+        DaysRecords(recordsByDay = state.recordsByDay, onAction = onAction)
     }
 }
 
@@ -149,7 +138,7 @@ fun HomeScreenPreview() {
                 titleTime = "Oct 2023",
                 recordsByDay = listOf(
                     Date() to listOf(
-                        MoneyRecord(
+                        MoneyRecordAndType(
                             20,
                             MoneyRecordType(
                                 1,
@@ -161,7 +150,7 @@ fun HomeScreenPreview() {
                             Date().time,
                             Date().time,
                         ),
-                        MoneyRecord(
+                        MoneyRecordAndType(
                             10,
                             MoneyRecordType(
                                 2,
@@ -175,7 +164,7 @@ fun HomeScreenPreview() {
                         )
                     ),
                     Date().tomorrow() to listOf(
-                        MoneyRecord(
+                        MoneyRecordAndType(
                             20,
                             MoneyRecordType(
                                 1,
@@ -187,7 +176,7 @@ fun HomeScreenPreview() {
                             Date().time + 2,
                             Date().time + 2,
                         ),
-                        MoneyRecord(
+                        MoneyRecordAndType(
                             10,
                             MoneyRecordType(
                                 2,

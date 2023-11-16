@@ -29,4 +29,7 @@ object Dimens {
     val MoneyTypeIconSize = 48.dp
     val KeyBoardKeyHeight = 64.dp
     val DeleteIconWidth = 24.dp
+
+    // date picker
+    val DatePickerTitleHeight = 32.dp
 }

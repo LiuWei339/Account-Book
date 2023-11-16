@@ -98,7 +98,10 @@ fun BoxScope.BigBottomNavigationBarItem(
             .size(Dimens.NavBigIconSize)
             .align(Alignment.TopCenter)
             .offset(y = 0.dp - Dimens.NavBigIconSize / 2)
-            .clickable {
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) {
                 onClick()
             }
     )
