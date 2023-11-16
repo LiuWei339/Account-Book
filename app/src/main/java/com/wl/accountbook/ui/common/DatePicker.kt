@@ -1,4 +1,4 @@
-package com.wl.accountbook.ui.common.datepicker
+package com.wl.accountbook.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
-import com.wl.accountbook.ui.common.HorizontalDivider
 import com.wl.accountbook.ui.theme.AccountBookTheme
 import com.wl.accountbook.ui.theme.TextGray
 import com.wl.common.util.LogUtil
@@ -52,7 +51,7 @@ fun DatePicker(
     onConfirm: (LocalDate) -> Unit
 ) {
 
-    val yearList = remember(curDate.year) { (2020..curDate.year).toList() }
+    val yearList = remember(curDate.year) { (2020..LocalDate.now().year).toList() }
     var selectDate by remember { mutableStateOf(curDate) }
 
     Box(
@@ -64,25 +63,31 @@ fun DatePicker(
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            Row(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(Dimens.DatePickerTitleHeight)
-                    .padding(horizontal = Dimens.PaddingLarge),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(horizontal = Dimens.PaddingLarge)
             ) {
                 Text(text = stringResource(id = R.string.cancel).uppercase(),
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.clickable { onClose() })
+                    style = MaterialTheme.typography.bodyMedium.copy(color = TextGray),
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .clickable { onClose() })
 
                 Text(
-                    text = title, style = MaterialTheme.typography.bodyMedium, modifier = Modifier
+                    text = title,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.align(
+                        Alignment.Center
+                    )
                 )
 
                 Text(text = stringResource(id = R.string.confirm).uppercase(),
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.clickable { onConfirm(selectDate) })
+                    style = MaterialTheme.typography.bodyMedium.copy(color = TextGray),
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .clickable { onConfirm(selectDate) })
             }
 
             HorizontalDivider()
@@ -129,7 +134,7 @@ fun DayPicker(
     DatePicker(
         modifier = modifier,
         curDate = curDate,
-        title = stringResource(id = R.string.select_date),
+        title = stringResource(id = R.string.select_date).uppercase(),
         showDay = true,
         showMonth = true,
         onClose = onClose,
@@ -147,7 +152,7 @@ fun MonthPicker(
     DatePicker(
         modifier = modifier,
         curDate = curDate,
-        title = stringResource(id = R.string.select_month),
+        title = stringResource(id = R.string.select_month).uppercase(),
         showDay = false,
         showMonth = true,
         onClose = onClose,
@@ -165,7 +170,7 @@ fun YearPicker(
     DatePicker(
         modifier = modifier,
         curDate = curDate,
-        title = stringResource(id = R.string.select_year),
+        title = stringResource(id = R.string.select_year).uppercase(),
         showDay = false,
         showMonth = false,
         onClose = onClose,

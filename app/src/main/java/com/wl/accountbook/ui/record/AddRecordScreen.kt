@@ -5,9 +5,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,6 +24,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
@@ -28,6 +33,8 @@ import com.maxkeppeler.sheets.calendar.models.CalendarSelection
 import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
+import com.wl.accountbook.ui.common.BottomDialog
+import com.wl.accountbook.ui.common.DayPicker
 import com.wl.accountbook.ui.common.NavigationBarFiller
 import com.wl.accountbook.ui.common.StatusBarFiller
 import com.wl.accountbook.ui.record.calculator.CalculatorState
@@ -37,7 +44,11 @@ import com.wl.accountbook.ui.record.components.RecordTypeSelector
 import com.wl.accountbook.ui.theme.AccountBookTheme
 import com.wl.accountbook.ui.theme.LightGrayBg
 import com.wl.common.util.LogUtil
+import com.wl.common.util.toLocalDate
+import com.wl.common.util.toLocalDayString
+import com.wl.common.util.toTimeMillis
 import java.time.LocalDate
+import java.util.Date
 
 @SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -89,7 +100,7 @@ fun AddRecordScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .navigationBarsPadding(),
-                    showTime = state.showTime,
+                    showTime = state.date.toLocalDayString(),
                     note = state.note,
                     isValidRecord = state.isValidRecord,
                     calcState = calcState,
@@ -110,7 +121,17 @@ fun AddRecordScreen(
         }
 
         if (state.showDateSelector) {
-            // TODO
+            BottomDialog {
+                DayPicker(
+                    curDate = state.date.toLocalDate(),
+                    onClose = { onAction(RecordAction.CloseDatePicker) },
+                    onConfirm = { localDate ->
+                        LogUtil.d("AddRecordScreen", "select date: $localDate")
+                        onAction(RecordAction.SelectDate(localDate.toTimeMillis()))
+                    }
+                )
+            }
+
 //            val datePickerState = rememberDatePickerState()
 //            val confirmEnabled = derivedStateOf { datePickerState.selectedDateMillis != null }
 //            DatePickerDialog(
@@ -168,7 +189,7 @@ fun AddRecordScreenWithKeyboardPreview() {
         AddRecordScreen(
             state = RecordState(
                 note = "note",
-                showTime = "2023/10/30",
+                date = Date(),
                 typeIndexId = 0
             ),
             calcState = CalculatorState(),

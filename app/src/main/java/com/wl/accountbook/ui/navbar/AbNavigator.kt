@@ -44,24 +44,14 @@ fun AbNavigator() {
                 route = Destination.HomeDestination.route
             ),
             BottomNavItem(
-                icon = R.drawable.ic_statics,
-                label = R.string.stats,
-                route = Destination.StaticsDestination.route
-            ),
-            BottomNavItem(
                 icon = R.drawable.ic_add_record,
                 label = R.string.add,
                 route = Destination.AddRecordDestination.route
             ),
             BottomNavItem(
-                icon = R.drawable.ic_home,
-                label = R.string.record,
-                route = Destination.HomeDestination.route
-            ), // TODO
-            BottomNavItem(
-                icon = R.drawable.ic_home,
-                label = R.string.record,
-                route = Destination.HomeDestination.route
+                icon = R.drawable.ic_statics,
+                label = R.string.stats,
+                route = Destination.StaticsDestination.route
             ),
         )
     }

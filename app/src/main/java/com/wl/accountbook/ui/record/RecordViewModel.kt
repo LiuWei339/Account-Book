@@ -32,7 +32,7 @@ class RecordViewModel @Inject constructor(
         private set
 
     var recordState by mutableStateOf(RecordState(
-        showTime = Date().toLocalDayString(),
+        date = Date(),
         tabIndex = 0
     ))
         private set
@@ -86,7 +86,7 @@ class RecordViewModel @Inject constructor(
             }
             is RecordAction.SelectDate -> {
                 recordState = recordState.copy(
-                    showTime = Date(action.timeStamp).toLocalDayString(),
+                    date = Date(action.timeStamp),
                     showDateSelector = false
                 )
             }
