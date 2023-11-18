@@ -4,7 +4,7 @@ import android.util.Log
 
 object LogUtil {
 
-    private const val LOG_PREFIX = "Account book"
+    private const val LOG_PREFIX = "Account_book"
 
     private fun addPrefix(tag: String) = "$LOG_PREFIX, $tag"
 

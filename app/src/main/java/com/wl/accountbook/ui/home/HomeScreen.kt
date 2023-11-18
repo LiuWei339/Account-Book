@@ -11,25 +11,32 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
 import com.wl.accountbook.ui.common.AutoSizeText
+import com.wl.accountbook.ui.common.BottomDialog
+import com.wl.accountbook.ui.common.MonthPicker
 import com.wl.accountbook.ui.common.StatusBarFiller
-import com.wl.accountbook.ui.home.components.DayRecords
 import com.wl.accountbook.ui.home.components.DaysRecords
 import com.wl.accountbook.ui.home.components.HomeTopBar
 import com.wl.accountbook.ui.theme.AccountBookTheme
+import com.wl.common.util.LogUtil
+import com.wl.common.util.toLocalDate
+import com.wl.common.util.toTimeMillis
 import com.wl.common.util.tomorrow
 import com.wl.data.util.MoneyUtils
 import com.wl.domain.model.MoneyRecordAndType
@@ -43,19 +50,36 @@ fun HomeScreen(
     state: HomeState,
     onAction: (HomeAction) -> Unit
 ) {
+    var showMonthSelector by rememberSaveable { mutableStateOf(false) }
+
     Column(
-        modifier = Modifier.fillMaxSize().then(modifier)
+        modifier = Modifier
+            .fillMaxSize()
+            .then(modifier)
     ) {
         StatusBarFiller()
         HomeTopBar(
-            date = state.titleTime,
-            onDateClick = { onAction(HomeAction.ClickDate) },
+            date = state.date,
+            onDateClick = { showMonthSelector = true },
             onSearchClick = { onAction(HomeAction.ClickSearch) }
         )
 
         StatesOfTheMonth(state.totalIncome, state.totalExpenses)
 
         DaysRecords(recordsByDay = state.recordsByDay, onAction = onAction)
+    }
+
+    if (showMonthSelector) {
+        BottomDialog(onDismiss = {showMonthSelector = false}) {
+            MonthPicker(
+                curDate = state.date.toLocalDate(),
+                onClose = { showMonthSelector = false },
+                onConfirm = { localDate ->
+                    LogUtil.d("HomeScreen", "select date: $localDate")
+                    onAction(HomeAction.SelectDate(localDate.toTimeMillis()))
+                }
+            )
+        }
     }
 }
 
@@ -107,7 +131,7 @@ fun StatesOfTheMonth(
                 .weight(1f)
                 .fillMaxWidth()
             SingleStateOfTheMonth(
-                stringResource(id = R.string.expenses),
+                pluralStringResource(id = R.plurals.expense, count = 2),
                 MoneyUtils.transToActualMoney(expenses),
                 modifier
             )
@@ -135,7 +159,6 @@ fun HomeScreenPreview() {
     AccountBookTheme(dynamicColor = false) {
         HomeScreen(
             state = HomeState(
-                titleTime = "Oct 2023",
                 recordsByDay = listOf(
                     Date() to listOf(
                         MoneyRecordAndType(

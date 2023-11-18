@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.wl.accountbook.R
@@ -101,7 +102,7 @@ fun DayRecordsTitle(
                 )
                 Spacer(modifier = Modifier.width(Dimens.PaddingXLarge))
                 Text(
-                    text = stringResource(id = R.string.expenses_amount, expense),
+                    text = pluralStringResource(id = R.plurals.expense, count = 2),
                     style = MaterialTheme.typography.bodySmall
                 )
             }

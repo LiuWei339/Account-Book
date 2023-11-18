@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -103,7 +104,7 @@ fun RecordTopBarPreview() {
     AccountBookTheme(dynamicColor = false) {
         RecordTopBar(
             tabNames = listOf(
-                stringResource(id = R.string.expenses),
+                pluralStringResource(id = R.plurals.expense, count = 1),
                 stringResource(id = R.string.income)
             ),
             selected = 0,

@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Account Book</string>
-    <string name="expenses">Expenses</string>
+    <plurals name="expense">
+        <item quantity="one">Expense</item>
+        <item quantity="other">Expenses</item>
+    </plurals>
     <string name="income">Income</string>
     <string name="total">Total</string>
     <string name="expenses_amount">Expenses: %s</string>

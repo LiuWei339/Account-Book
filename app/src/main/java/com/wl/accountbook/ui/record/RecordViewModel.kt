@@ -47,10 +47,14 @@ class RecordViewModel @Inject constructor(
 
     private fun setCalculatorState(state: CalculatorState) {
         recordState = recordState.copy(
-            isValidRecord = state.operation == null
-                    && MoneyUtils.transToCalcMoney(state.number1, state.number1Decimal) > 0
+            isValidRecord = isValidRecord(state)
         )
         calcState = state
+    }
+
+    private fun isValidRecord(state: CalculatorState): Boolean {
+        return state.operation == null
+                && MoneyUtils.transToCalcMoney(state.number1, state.number1Decimal) > 0
     }
 
     fun onRecordAction(action: RecordAction) {
@@ -87,7 +91,6 @@ class RecordViewModel @Inject constructor(
             is RecordAction.SelectDate -> {
                 recordState = recordState.copy(
                     date = Date(action.timeStamp),
-                    showDateSelector = false
                 )
             }
             is RecordAction.ChangeNote -> {
@@ -104,12 +107,13 @@ class RecordViewModel @Inject constructor(
     }
 
     private fun addRecord() {
+        if (!isValidRecord(calcState)) return
         viewModelScope.launch {
             val record = MoneyRecordAndType(
                 amount = MoneyUtils.transToCalcMoney(calcState.number1, calcState.number1Decimal),
                 type = recordState.recordTypes[recordState.typeIndexId],
                 note = recordState.note,
-                recordTime = System.currentTimeMillis().startOfTheDay(), // TODO use time selector
+                recordTime = recordState.date.time,
                 createTime = System.currentTimeMillis()
             )
             recordRepo.addOrUpdateRecord(record)

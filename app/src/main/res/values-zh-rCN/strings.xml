@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">记账本</string>
-    <string name="expenses">支出</string>
+    <plurals name="expense">
+        <item quantity="other">支出</item>
+    </plurals>
     <string name="income">收入</string>
     <string name="total">总计</string>
     <string name="expenses_amount">支出: %s</string>

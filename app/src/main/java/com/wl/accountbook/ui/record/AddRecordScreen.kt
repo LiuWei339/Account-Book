@@ -22,6 +22,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -70,7 +71,7 @@ fun AddRecordScreen(
 
             RecordTopBar(
                 tabNames = listOf(
-                    stringResource(id = R.string.expenses),
+                    pluralStringResource(id = R.plurals.expense, count = 1),
                     stringResource(id = R.string.income)
                 ),
                 selected = state.tabIndex,
@@ -131,38 +132,6 @@ fun AddRecordScreen(
                     }
                 )
             }
-
-//            val datePickerState = rememberDatePickerState()
-//            val confirmEnabled = derivedStateOf { datePickerState.selectedDateMillis != null }
-//            DatePickerDialog(
-//                onDismissRequest = { onAction(RecordAction.CloseDatePicker) },
-//                confirmButton = {
-//                    TextButton(
-//                        onClick = {
-//                            onAction(RecordAction.SelectDate(datePickerState.selectedDateMillis ?: 0L))
-//                        },
-//                        enabled = confirmEnabled.value
-//                    ) {
-//                        Text(stringResource(id = R.string.confirm))
-//                    }
-//                },
-//                dismissButton = {
-//                    TextButton(
-//                        onClick = {
-//                            onAction(RecordAction.CloseDatePicker)
-//                        }
-//                    ) {
-//                        Text(stringResource(id = R.string.cancel))
-//                    }
-//                }
-//            ) {
-//                DatePicker(
-//                    state = datePickerState,
-//                    showModeToggle = false,
-//                    title = null,
-//                    headline = null
-//                )
-//            }
         }
     }
 }

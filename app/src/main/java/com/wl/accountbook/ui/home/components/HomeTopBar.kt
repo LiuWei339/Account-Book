@@ -2,6 +2,7 @@ package com.wl.accountbook.ui.home.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,17 +23,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
 import com.wl.accountbook.ui.theme.AccountBookTheme
+import com.wl.common.util.monthYearFormat
+import java.util.Date
 
 @Composable
 fun HomeTopBar(
-    date: String,
+    date: Date,
     onDateClick: () -> Unit,
     onSearchClick: () -> Unit
 ) {
-    val dateText by rememberSaveable {
-        mutableStateOf(date)
-    }
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -49,12 +48,12 @@ fun HomeTopBar(
         )
 
         Row(
-            modifier = Modifier.align(Alignment.CenterVertically),
+            modifier = Modifier.align(Alignment.CenterVertically).clickable { onDateClick() },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = dateText,
+                text = date.monthYearFormat(),
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(Dimens.PaddingXSmall),
                 textAlign = TextAlign.Center
@@ -69,7 +68,7 @@ fun HomeTopBar(
         Image(
             painter = painterResource(id = R.drawable.ic_search),
             contentDescription = null,
-            modifier = Modifier.size(Dimens.HeadIconSize)
+            modifier = Modifier.size(Dimens.HeadIconSize).clickable { onSearchClick() }
         )
     }
 }
@@ -78,6 +77,6 @@ fun HomeTopBar(
 @Composable
 fun HomeTopBarPreview() {
     AccountBookTheme(dynamicColor = false) {
-        HomeTopBar("Oct 2023", {}, {})
+        HomeTopBar(Date(), {}, {})
     }
 }

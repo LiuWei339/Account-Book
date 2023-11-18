@@ -87,7 +87,10 @@ fun DatePicker(
                     style = MaterialTheme.typography.bodyMedium.copy(color = TextGray),
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
-                        .clickable { onConfirm(selectDate) })
+                        .clickable {
+                            onConfirm(selectDate)
+                            onClose()
+                        })
             }
 
             HorizontalDivider()
