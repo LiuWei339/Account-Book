@@ -17,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -112,7 +111,7 @@ fun RecordInput(
         ) {
 
             Text(
-                text = stringResource(id = R.string.record_note),
+                text = stringResource(id = R.string.record_note_label),
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(
                     start = Dimens.PaddingXXLarge,
@@ -208,7 +207,7 @@ private fun Keyboard(
                                 modifier = Modifier.weight(1f)
                             ) {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.ic_delete),
+                                    painter = painterResource(id = R.drawable.ic_backspace),
                                     contentDescription = null,
                                     modifier = Modifier
                                         .width(Dimens.DeleteIconWidth)

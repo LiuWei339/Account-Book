@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import com.wl.accountbook.extensions.toSp
 
 @Composable
 fun Emoji(
@@ -14,9 +15,7 @@ fun Emoji(
     modifier: Modifier = Modifier
 ) {
 
-    val sizeInSp: TextUnit = with(LocalDensity.current) {
-        size.toSp()
-    }
+    val sizeInSp: TextUnit = size.toSp()
 
     Text(
         text = emoji,

@@ -13,6 +13,7 @@ import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.wl.accountbook.extensions.toPx
 import com.wl.accountbook.ui.theme.DivideColor
 
 @Composable
@@ -59,7 +60,7 @@ fun HorizontalDivider(
     color: Color = DivideColor,
     modifier: Modifier = Modifier
 ) {
-    val thicknessInPx = with(LocalDensity.current) { thickness.toPx() }
+    val thicknessInPx = thickness.toPx()
     HorizontalDivider(
         thicknessInPx,
         color,
@@ -73,7 +74,7 @@ fun VerticalDivider(
     color: Color = DivideColor,
     modifier: Modifier = Modifier
 ) {
-    val thicknessInPx = with(LocalDensity.current) { thickness.toPx() }
+    val thicknessInPx = thickness.toPx()
     VerticalDivider(
         thicknessInPx,
         color,

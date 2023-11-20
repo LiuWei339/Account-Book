@@ -13,8 +13,12 @@ interface RecordRepo {
     fun getRecordTypes(): Flow<List<MoneyRecordType>>
     suspend fun addOrUpdateType(recordType: MoneyRecordType)
 
-    // record
+    // record and type
     suspend fun addOrUpdateRecord(moneyRecord: MoneyRecordAndType)
     fun getRecordAndTypes(start: Long, end: Long): Flow<List<MoneyRecordAndType>>
+    suspend fun getRecordAndType(createTime: Long): MoneyRecordAndType
+
+    // record
     fun getSortedRecords(start: Long, end: Long): Flow<List<MoneyRecord>>
+    suspend fun deleteRecord(createTime: Long)
 }

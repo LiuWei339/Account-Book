@@ -6,7 +6,7 @@ import com.wl.domain.model.MoneyRecordType
 
 @Entity
 data class DbMoneyRecordType(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val name: String,
     val emoji: String,
     val isExpenses: Boolean,

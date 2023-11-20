@@ -115,7 +115,8 @@ fun DayRecords(
     date: Date,
     records: List<MoneyRecordAndType>,
     modifier: Modifier = Modifier,
-    onAction: (HomeAction) -> Unit
+    onAction: (HomeAction) -> Unit,
+    navigateToDetail: (createTime: Long) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -146,7 +147,7 @@ fun DayRecords(
                 SingleRecordCard(
                     record,
                     modifier = Modifier.padding(horizontal = Dimens.PaddingLarge).clickable {
-                        onAction(HomeAction.PressRecord(record))
+                        navigateToDetail(record.createTime)
                     }
                 )
             }
@@ -158,7 +159,8 @@ fun DayRecords(
 fun DaysRecords(
     recordsByDay: List<Pair<Date, List<MoneyRecordAndType>>>,
     modifier: Modifier = Modifier,
-    onAction: (HomeAction) -> Unit
+    onAction: (HomeAction) -> Unit,
+    navigateToDetail: (createTime: Long) -> Unit
 ) {
     LazyColumn {
         items(
@@ -168,7 +170,8 @@ fun DaysRecords(
             DayRecords(
                 date = date,
                 records = records,
-                onAction = onAction
+                onAction = onAction,
+                navigateToDetail = navigateToDetail
             )
         }
     }
@@ -227,7 +230,8 @@ fun DayRecordsPreview() {
                     Date().time + 1,
                 )
             ),
-            onAction = {}
+            onAction = {},
+            navigateToDetail = {}
         )
     }
 }

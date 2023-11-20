@@ -25,6 +25,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.common.StatusBarFiller
+import com.wl.accountbook.ui.details.detailScreen
+import com.wl.accountbook.ui.details.navigateToDetail
 import com.wl.accountbook.ui.home.HomeScreen
 import com.wl.accountbook.ui.home.HomeViewModel
 import com.wl.accountbook.ui.navbar.components.BottomNavItem
@@ -79,10 +81,7 @@ fun AbNavigator() {
                     items = navItems,
                     selectedRoute = selectedRoute,
                     onItemClick = { route ->
-                        navigateToTab(
-                            navController,
-                            route
-                        )
+                        navController.navigateToTab(route)
                     }
                 )
             }
@@ -99,7 +98,8 @@ fun AbNavigator() {
                 val state = viewModel.stateFlow.collectAsState()
                 HomeScreen(
                     state = state.value,
-                    onAction = viewModel::onAction
+                    onAction = viewModel::onAction,
+                    navigateToDetail = navController::navigateToDetail
                 )
             }
 
@@ -126,13 +126,15 @@ fun AbNavigator() {
                     navigateUp = navController::navigateUp
                 )
             }
+
+            detailScreen(navController)
         }
     }
 }
 
-private fun navigateToTab(navController: NavController, route: String) {
-    navController.navigate(route) {
-        navController.graph.startDestinationRoute?.let {
+private fun NavController.navigateToTab(route: String) {
+    navigate(route) {
+        graph.startDestinationRoute?.let {
             popUpTo(it) {
                 saveState = true
             }
@@ -141,3 +143,4 @@ private fun navigateToTab(navController: NavController, route: String) {
         restoreState = true
     }
 }
+

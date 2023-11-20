@@ -47,11 +47,6 @@ class HomeViewModel @Inject constructor(
                 getRecordsJob.cancel()
                 getRecordsJob = getRecordsOfTheMonth(action.timeStamp)
             }
-            is HomeAction.PressRecord -> {
-                val record = action.record
-                // go to record details  TODO
-
-            }
         }
     }
 

@@ -29,8 +29,15 @@ interface RecordDao {
     @Delete
     suspend fun delete(record: DbMoneyRecord)
 
+    @Query("DELETE FROM DbMoneyRecord WHERE createTime = :createTime")
+    suspend fun delete(createTime: Long)
+
     @Transaction
     @Query("SELECT * FROM DbMoneyRecord WHERE recordTime <= :end AND recordTime >= :start " +
             "ORDER BY recordTime DESC, createTime DESC")
     fun getRecordsAndTypes(start: Long, end: Long): Flow<List<DbMoneyRecordAndType>>
+
+    @Transaction
+    @Query("SELECT * FROM DbMoneyRecord WHERE createTime = :createTime")
+    suspend fun getRecordAndType(createTime: Long): DbMoneyRecordAndType
 }

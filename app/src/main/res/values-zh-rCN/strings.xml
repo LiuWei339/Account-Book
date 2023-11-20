@@ -16,11 +16,17 @@
 
     <!-- record -->
     <string name="record_keyboard_done">完成</string>
-    <string name="record_note">备注：</string>
+    <string name="record_note_label">备注：</string>
 
     <string name="confirm">确认</string>
     <string name="cancel">取消</string>
     <string name="select_date">选择日期</string>
     <string name="select_month">选择月份</string>
     <string name="select_year">选择年份</string>
+
+    <!-- record detail -->
+    <string name="record_category">类型</string>
+    <string name="record_amount">金额</string>
+    <string name="record_date">日期</string>
+    <string name="record_note">备注</string>
 </resources>

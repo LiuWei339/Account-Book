@@ -7,6 +7,4 @@ sealed class HomeAction {
     object ClickSearch: HomeAction()
     data class SelectDate(val timeStamp: Long): HomeAction()
 //    object ClickBook: HomeAction()
-    data class PressRecord(val record: MoneyRecordAndType): HomeAction()
-
 }

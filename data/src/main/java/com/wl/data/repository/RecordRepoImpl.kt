@@ -68,9 +68,17 @@ class RecordRepoImpl @Inject constructor(
         }
     }
 
+    override suspend fun getRecordAndType(createTime: Long): MoneyRecordAndType {
+        return recordDao.getRecordAndType(createTime).toMoneyRecordAndType()
+    }
+
     override fun getSortedRecords(start: Long, end: Long): Flow<List<MoneyRecord>> {
         return recordDao.getSortedRecords(start, end).map { list ->
             list.map { it.toMoneyRecord() }
         }
+    }
+
+    override suspend fun deleteRecord(createTime: Long) {
+        recordDao.delete(createTime)
     }
 }

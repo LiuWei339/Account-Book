@@ -48,7 +48,8 @@ import kotlin.math.abs
 fun HomeScreen(
     modifier: Modifier = Modifier,
     state: HomeState,
-    onAction: (HomeAction) -> Unit
+    onAction: (HomeAction) -> Unit,
+    navigateToDetail: (createTime: Long) -> Unit
 ) {
     var showMonthSelector by rememberSaveable { mutableStateOf(false) }
 
@@ -66,7 +67,8 @@ fun HomeScreen(
 
         StatesOfTheMonth(state.totalIncome, state.totalExpenses)
 
-        DaysRecords(recordsByDay = state.recordsByDay, onAction = onAction)
+        DaysRecords(recordsByDay = state.recordsByDay,
+            onAction = onAction, navigateToDetail = navigateToDetail)
     }
 
     if (showMonthSelector) {
@@ -214,7 +216,8 @@ fun HomeScreenPreview() {
                     ),
                 )
             ),
-            onAction = { }
+            onAction = { },
+            navigateToDetail = {}
         )
     }
 }
