@@ -47,7 +47,7 @@ class RecordViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             allRecordTypes = recordRepo.getRecordTypes().first()
 
-            if (recordArgs.recordCreateTime < 0) { // Add record
+            if (isAddRecord()) { // Add record
                 withContext(Dispatchers.Main) {
                     recordState = recordState.copy(
                         recordTypes = allRecordTypes.filter { it.isExpenses }
@@ -81,6 +81,10 @@ class RecordViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun isAddRecord(): Boolean {
+        return recordArgs.recordCreateTime < 0
     }
 
     private fun setCalculatorState(state: CalculatorState) {
@@ -158,9 +162,7 @@ class RecordViewModel @Inject constructor(
                 type = recordState.recordTypes[recordState.typeIndexId],
                 note = recordState.note,
                 recordTime = recordState.date.time,
-                createTime = if (recordArgs.recordCreateTime > 0)
-                    recordArgs.recordCreateTime
-                else System.currentTimeMillis()
+                createTime = if (isAddRecord()) System.currentTimeMillis() else recordArgs.recordCreateTime
             )
             recordRepo.addOrUpdateRecord(record)
         }

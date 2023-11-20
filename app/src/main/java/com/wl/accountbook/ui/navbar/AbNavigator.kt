@@ -124,7 +124,7 @@ fun AbNavigator() {
     }
 }
 
-private fun NavController.navigateToTab(route: String) {
+fun NavController.navigateToTab(route: String) {
     navigate(route) {
         graph.startDestinationRoute?.let {
             popUpTo(it) {

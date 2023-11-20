@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.wl.accountbook.ui.navbar.navigateToTab
 import com.wl.accountbook.ui.navgraph.Destination
 
 internal const val recordCreateTimeArg = "recordCreateTime"
@@ -27,7 +28,11 @@ fun NavGraphBuilder.recordEditScreen(navController: NavHostController) {
             state = viewModel.recordState,
             calcState = viewModel.calcState,
             onAction = viewModel::onRecordAction,
-            navigateUp = navController::navigateUp
+            navigateUp = {
+                if (viewModel.isAddRecord())
+                    navController.navigateUp()
+                else navController.popBackStack(Destination.HomeDestination.route, false)
+            }
         )
     }
 }

@@ -76,7 +76,7 @@ fun BottomAlertDialog(
                         .align(
                             Alignment.Start
                         )
-                        .padding(vertical = Dimens.PaddingExLarge, horizontal = Dimens.PaddingLarge)
+                        .padding(vertical = Dimens.PaddingExLarge, horizontal = Dimens.PaddingXXLarge)
                 )
             } else {
                 content()
