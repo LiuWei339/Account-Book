@@ -32,8 +32,8 @@ import com.wl.accountbook.ui.home.HomeViewModel
 import com.wl.accountbook.ui.navbar.components.BottomNavItem
 import com.wl.accountbook.ui.navbar.components.BottomNavigationBar
 import com.wl.accountbook.ui.navgraph.Destination
-import com.wl.accountbook.ui.record.AddRecordScreen
-import com.wl.accountbook.ui.record.RecordViewModel
+import com.wl.accountbook.ui.record.navigateToRecord
+import com.wl.accountbook.ui.record.recordEditScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,7 +49,7 @@ fun AbNavigator() {
             BottomNavItem(
                 icon = R.drawable.ic_add_record,
                 label = R.string.add,
-                route = Destination.AddRecordDestination.route
+                route = Destination.RecordEditDestination.withArgs("-1")
             ),
             BottomNavItem(
                 icon = R.drawable.ic_statics,
@@ -117,15 +117,7 @@ fun AbNavigator() {
                 }
             }
 
-            composable(route = Destination.AddRecordDestination.route) {
-                val viewModel: RecordViewModel = hiltViewModel()
-                AddRecordScreen(
-                    state = viewModel.recordState,
-                    calcState = viewModel.calcState,
-                    onAction = viewModel::onRecordAction,
-                    navigateUp = navController::navigateUp
-                )
-            }
+            recordEditScreen(navController)
 
             detailScreen(navController)
         }

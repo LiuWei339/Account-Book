@@ -102,7 +102,7 @@ fun DayRecordsTitle(
                 )
                 Spacer(modifier = Modifier.width(Dimens.PaddingXLarge))
                 Text(
-                    text = pluralStringResource(id = R.plurals.expense, count = 2),
+                    text = stringResource(id = R.string.expenses_amount, expense),
                     style = MaterialTheme.typography.bodySmall
                 )
             }

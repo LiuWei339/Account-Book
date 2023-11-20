@@ -19,5 +19,4 @@ val DivideColor = Color(0x7F737373)
 val TextColor = Color(0xFF363636)
 val LightGrayBg = Color(0xFFF5F5F5)
 
-val WarningRed = Color(0xFFE91B1B)
 val LineLightGray = Color(0xFFF4F4F4)

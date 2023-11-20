@@ -29,4 +29,5 @@
     <string name="record_amount">金额</string>
     <string name="record_date">日期</string>
     <string name="record_note">备注</string>
+    <string name="record_delete_confirm">确认删除这条记录吗</string>
 </resources>

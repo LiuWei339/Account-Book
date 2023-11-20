@@ -9,6 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.wl.accountbook.ui.navgraph.Destination
+import com.wl.accountbook.ui.record.navigateToRecord
 
 
 internal const val recordCreateTimeArg = "recordCreateTime"
@@ -28,7 +29,7 @@ fun NavGraphBuilder.detailScreen(navController: NavHostController) {
             DetailScreen(
                 moneyRecordAndType = it,
                 onClickDelete = viewModel::delete,
-                onClickEdit = {}, // TODO
+                onClickEdit = { navController.navigateToRecord(it.createTime) },
                 navigateUp = navController::navigateUp
             )
         }

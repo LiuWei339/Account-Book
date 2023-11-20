@@ -25,6 +25,8 @@ import com.wl.accountbook.ui.theme.AccountBookTheme
 import com.wl.accountbook.ui.theme.LineLightGray
 import com.wl.accountbook.ui.theme.TextColor
 import com.wl.common.util.toLocalDayString
+import com.wl.data.util.MoneyUtils
+import com.wl.data.util.toActualMoney
 import com.wl.domain.model.MoneyRecordAndType
 import com.wl.domain.model.MoneyRecordType
 import java.util.Date
@@ -121,7 +123,7 @@ fun DetailContent(
             )
             DetailField(
                 stringResource(id = R.string.record_amount),
-                moneyRecordAndType.amount.toString(),
+                moneyRecordAndType.amount.toActualMoney(),
                 "amount",
                 "amountVal",
             )

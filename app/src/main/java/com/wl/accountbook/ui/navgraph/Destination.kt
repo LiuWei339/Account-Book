@@ -11,7 +11,7 @@ sealed class Destination(
     // Tabs
     object HomeDestination: Destination("homeScreen")
     object StaticsDestination: Destination("staticsScreen")
-    object AddRecordDestination: Destination("addRecordScreen")
+    object RecordEditDestination: Destination("recordEditScreen")
 
     // home
     object DetailDestination: Destination("detailDestination")

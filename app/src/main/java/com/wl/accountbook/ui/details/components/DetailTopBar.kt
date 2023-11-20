@@ -14,6 +14,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -24,8 +28,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
+import com.wl.accountbook.ui.common.BottomAlertDialog
 import com.wl.accountbook.ui.theme.AccountBookTheme
-import com.wl.accountbook.ui.theme.WarningRed
+import com.wl.accountbook.ui.theme.TextGray
 
 @Composable
 fun DetailTopBar(
@@ -35,6 +40,10 @@ fun DetailTopBar(
     onClickEdit: () -> Unit,
     onClickBack: () -> Unit
 ) {
+
+    var showCancelDialog by remember {
+        mutableStateOf(false)
+    }
 
     Row(
         modifier = modifier
@@ -75,12 +84,12 @@ fun DetailTopBar(
 
         Icon(
             painter = painterResource(id = R.drawable.ic_delete),
-            tint = WarningRed,
+            tint = TextGray,
             contentDescription = null,
             modifier = Modifier
                 .size(Dimens.HeadIconSize)
                 .clickable {
-                    onClickDelete()
+                    showCancelDialog = true
                 }
         )
 
@@ -95,6 +104,14 @@ fun DetailTopBar(
                 .clickable {
                     onClickEdit()
                 }
+        )
+    }
+
+    if (showCancelDialog) {
+        BottomAlertDialog(
+            onDismiss = { showCancelDialog = false },
+            onConfirm = onClickDelete,
+            text = stringResource(id = R.string.record_delete_confirm)
         )
     }
 }

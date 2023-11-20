@@ -5,35 +5,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
-import com.maxkeppeler.sheets.calendar.CalendarDialog
-import com.maxkeppeler.sheets.calendar.models.CalendarConfig
-import com.maxkeppeler.sheets.calendar.models.CalendarSelection
-import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import com.wl.accountbook.R
-import com.wl.accountbook.ui.Dimens
 import com.wl.accountbook.ui.common.BottomDialog
 import com.wl.accountbook.ui.common.DayPicker
 import com.wl.accountbook.ui.common.NavigationBarFiller
@@ -48,13 +26,11 @@ import com.wl.common.util.LogUtil
 import com.wl.common.util.toLocalDate
 import com.wl.common.util.toLocalDayString
 import com.wl.common.util.toTimeMillis
-import java.time.LocalDate
 import java.util.Date
 
 @SuppressLint("UnrememberedMutableState")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddRecordScreen(
+fun RecordEditScreen(
     modifier: Modifier = Modifier,
     state: RecordState,
     calcState: CalculatorState,
@@ -140,7 +116,7 @@ fun AddRecordScreen(
 @Composable
 fun AddRecordScreenPreview() {
     AccountBookTheme(dynamicColor = false) {
-        AddRecordScreen(
+        RecordEditScreen(
             state = RecordState(
                 note = "note",
                 typeIndexId = -1
@@ -155,7 +131,7 @@ fun AddRecordScreenPreview() {
 @Composable
 fun AddRecordScreenWithKeyboardPreview() {
     AccountBookTheme(dynamicColor = false) {
-        AddRecordScreen(
+        RecordEditScreen(
             state = RecordState(
                 note = "note",
                 date = Date(),

@@ -1,7 +1,6 @@
 package com.wl.accountbook.ui
 
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 object Dimens {
 
@@ -30,6 +29,6 @@ object Dimens {
     val KeyBoardKeyHeight = 64.dp
     val DeleteIconWidth = 24.dp
 
-    // date picker
-    val DatePickerTitleHeight = 32.dp
+    // dialog
+    val DialogTitleHeight = 32.dp
 }

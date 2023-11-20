@@ -66,7 +66,7 @@ fun DatePicker(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(Dimens.DatePickerTitleHeight)
+                    .height(Dimens.DialogTitleHeight)
                     .padding(horizontal = Dimens.PaddingLarge)
             ) {
                 Text(text = stringResource(id = R.string.cancel).uppercase(),
