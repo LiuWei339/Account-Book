@@ -34,8 +34,15 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         lineHeight = 48.sp,
     ),
+    titleSmall = TextStyle(
+        fontSize = 14.sp,
+        fontFamily = fontFamily,
+        fontWeight = FontWeight.Medium,
+        color = Gray,
+        lineHeight = 24.sp
+    ),
     titleMedium = TextStyle(
-        fontSize = 20.sp,
+        fontSize = 16.sp,
         fontFamily = fontFamily,
         fontWeight = FontWeight.Medium,
         lineHeight = 32.sp,
@@ -53,10 +60,10 @@ val Typography = Typography(
         fontFamily = fontFamily,
         fontWeight = FontWeight.Light,
         lineHeight = 14.sp,
-        color = TextGray
+        color = Gray
     ),
     bodyMedium = TextStyle(
-        fontSize = 12.sp,
+        fontSize = 14.sp,
         fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
         lineHeight = 24.sp,
@@ -72,13 +79,13 @@ val Typography = Typography(
         fontSize = 12.sp,
         fontFamily = fontFamily,
         fontWeight = FontWeight.Medium,
-        color = TextGray
+        color = Gray
     ),
     labelMedium = TextStyle(
         fontSize = 14.sp,
         fontFamily = fontFamily,
         fontWeight = FontWeight.Medium,
-        color = TextGray,
+        color = Gray,
         lineHeight = 24.sp
     ),
     /* Other default text styles to override

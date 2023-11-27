@@ -24,7 +24,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.wl.accountbook.R
-import com.wl.accountbook.ui.common.StatusBarFiller
+import com.wl.accountbook.ui.common.components.StatusBarFiller
 import com.wl.accountbook.ui.details.detailScreen
 import com.wl.accountbook.ui.details.navigateToDetail
 import com.wl.accountbook.ui.home.HomeScreen
@@ -32,8 +32,9 @@ import com.wl.accountbook.ui.home.HomeViewModel
 import com.wl.accountbook.ui.navbar.components.BottomNavItem
 import com.wl.accountbook.ui.navbar.components.BottomNavigationBar
 import com.wl.accountbook.ui.navgraph.Destination
-import com.wl.accountbook.ui.record.navigateToRecord
 import com.wl.accountbook.ui.record.recordEditScreen
+import com.wl.accountbook.ui.search.navigateToSearch
+import com.wl.accountbook.ui.search.searchScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -99,7 +100,8 @@ fun AbNavigator() {
                 HomeScreen(
                     state = state.value,
                     onAction = viewModel::onAction,
-                    navigateToDetail = navController::navigateToDetail
+                    navigateToDetail = navController::navigateToDetail,
+                    navigateToSearch = navController::navigateToSearch
                 )
             }
 
@@ -118,8 +120,8 @@ fun AbNavigator() {
             }
 
             recordEditScreen(navController)
-
             detailScreen(navController)
+            searchScreen(navController)
         }
     }
 }

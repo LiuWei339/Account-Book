@@ -27,10 +27,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
-import com.wl.accountbook.ui.common.AutoSizeText
-import com.wl.accountbook.ui.common.BottomDialog
-import com.wl.accountbook.ui.common.MonthPicker
-import com.wl.accountbook.ui.common.StatusBarFiller
+import com.wl.accountbook.ui.common.components.AutoSizeText
+import com.wl.accountbook.ui.common.components.BottomDialog
+import com.wl.accountbook.ui.common.components.MonthPicker
+import com.wl.accountbook.ui.common.components.StatusBarFiller
 import com.wl.accountbook.ui.home.components.DaysRecords
 import com.wl.accountbook.ui.home.components.HomeTopBar
 import com.wl.accountbook.ui.theme.AccountBookTheme
@@ -49,7 +49,8 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     state: HomeState,
     onAction: (HomeAction) -> Unit,
-    navigateToDetail: (createTime: Long) -> Unit
+    navigateToDetail: (createTime: Long) -> Unit,
+    navigateToSearch: () -> Unit
 ) {
     var showMonthSelector by rememberSaveable { mutableStateOf(false) }
 
@@ -62,13 +63,12 @@ fun HomeScreen(
         HomeTopBar(
             date = state.date,
             onDateClick = { showMonthSelector = true },
-            onSearchClick = { onAction(HomeAction.ClickSearch) }
+            onSearchClick = navigateToSearch
         )
 
         StatesOfTheMonth(state.totalIncome, state.totalExpenses)
 
-        DaysRecords(recordsByDay = state.recordsByDay,
-            onAction = onAction, navigateToDetail = navigateToDetail)
+        DaysRecords(recordsByDay = state.recordsByDay, navigateToDetail = navigateToDetail)
     }
 
     if (showMonthSelector) {
@@ -217,7 +217,8 @@ fun HomeScreenPreview() {
                 )
             ),
             onAction = { },
-            navigateToDetail = {}
+            navigateToDetail = {},
+            navigateToSearch = {}
         )
     }
 }

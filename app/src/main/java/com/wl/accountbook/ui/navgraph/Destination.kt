@@ -14,7 +14,8 @@ sealed class Destination(
     object RecordEditDestination: Destination("recordEditScreen")
 
     // home
-    object DetailDestination: Destination("detailDestination")
+    object DetailDestination: Destination("detailScreen")
+    object SearchDestination: Destination("searchScreen")
 
     fun withArgs(vararg args: String): String {
         return buildString {

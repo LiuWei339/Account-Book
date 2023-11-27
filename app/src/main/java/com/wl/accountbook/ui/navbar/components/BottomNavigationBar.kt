@@ -30,7 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
-import com.wl.accountbook.ui.common.NavigationBarFiller
+import com.wl.accountbook.ui.common.components.NavigationBarFiller
 import com.wl.accountbook.ui.theme.AccountBookTheme
 import com.wl.accountbook.ui.theme.LightGrayBg
 

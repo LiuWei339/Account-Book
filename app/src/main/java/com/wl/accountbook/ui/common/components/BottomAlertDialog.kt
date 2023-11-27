@@ -1,4 +1,4 @@
-package com.wl.accountbook.ui.common
+package com.wl.accountbook.ui.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
 import com.wl.accountbook.ui.theme.AccountBookTheme
-import com.wl.accountbook.ui.theme.TextGray
+import com.wl.accountbook.ui.theme.Gray
 
 @Composable
 fun BottomAlertDialog(
@@ -43,7 +43,7 @@ fun BottomAlertDialog(
                     .padding(horizontal = Dimens.PaddingLarge)
             ) {
                 Text(text = stringResource(id = R.string.cancel).uppercase(),
-                    style = MaterialTheme.typography.bodyMedium.copy(color = TextGray),
+                    style = MaterialTheme.typography.bodyMedium.copy(color = Gray),
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .clickable { onDismiss() })
@@ -57,7 +57,7 @@ fun BottomAlertDialog(
                 )
 
                 Text(text = stringResource(id = R.string.confirm).uppercase(),
-                    style = MaterialTheme.typography.bodyMedium.copy(color = TextGray),
+                    style = MaterialTheme.typography.bodyMedium.copy(color = Gray),
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
                         .clickable {

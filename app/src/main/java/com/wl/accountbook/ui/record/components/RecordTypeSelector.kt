@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.wl.accountbook.ui.Dimens
-import com.wl.accountbook.ui.common.Emoji
+import com.wl.accountbook.ui.common.components.Emoji
 import com.wl.accountbook.ui.theme.AccountBookTheme
 import com.wl.domain.model.MoneyRecordType
 

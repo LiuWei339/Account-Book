@@ -1,4 +1,4 @@
-package com.wl.accountbook.ui.common
+package com.wl.accountbook.ui.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

@@ -29,8 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
-import com.wl.accountbook.ui.common.AutoSizeText
-import com.wl.accountbook.ui.common.HorizontalDivider
+import com.wl.accountbook.ui.common.components.AutoSizeText
+import com.wl.accountbook.ui.common.components.HorizontalDivider
 import com.wl.accountbook.ui.record.calculator.CalculatorAction
 import com.wl.accountbook.ui.record.calculator.CalculatorOperation
 import com.wl.accountbook.ui.record.calculator.CalculatorState

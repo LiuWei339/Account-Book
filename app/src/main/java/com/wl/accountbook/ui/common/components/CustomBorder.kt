@@ -1,4 +1,4 @@
-package com.wl.accountbook.ui.common
+package com.wl.accountbook.ui.common.components
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed

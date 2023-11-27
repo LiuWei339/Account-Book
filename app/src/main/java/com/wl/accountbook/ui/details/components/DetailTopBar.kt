@@ -28,9 +28,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
-import com.wl.accountbook.ui.common.BottomAlertDialog
+import com.wl.accountbook.ui.common.components.BottomAlertDialog
 import com.wl.accountbook.ui.theme.AccountBookTheme
-import com.wl.accountbook.ui.theme.TextGray
+import com.wl.accountbook.ui.theme.Gray
 
 @Composable
 fun DetailTopBar(
@@ -84,7 +84,7 @@ fun DetailTopBar(
 
         Icon(
             painter = painterResource(id = R.drawable.ic_delete),
-            tint = TextGray,
+            tint = Gray,
             contentDescription = null,
             modifier = Modifier
                 .size(Dimens.HeadIconSize)

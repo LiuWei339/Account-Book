@@ -21,4 +21,7 @@ interface RecordRepo {
     // record
     fun getSortedRecords(start: Long, end: Long): Flow<List<MoneyRecord>>
     suspend fun deleteRecord(createTime: Long)
+
+    // search
+    suspend fun searchRecordAndTypes(text: String): List<MoneyRecordAndType>
 }

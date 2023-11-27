@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
-import com.wl.accountbook.ui.common.bottomBorder
+import com.wl.accountbook.ui.common.components.bottomBorder
 import com.wl.accountbook.ui.theme.AccountBookTheme
 
 @Composable
@@ -81,7 +81,7 @@ private fun RecordTopBarTab(
 
     Box(modifier = Modifier
         .bottomBorder(
-            color = if (isSelected) MaterialTheme.colorScheme.onBackground else Color.Transparent,
+            color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
             strokeWidth = 2.dp
         )
         .fillMaxHeight()

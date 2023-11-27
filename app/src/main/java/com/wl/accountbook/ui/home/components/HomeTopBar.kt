@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -65,7 +66,7 @@ fun HomeTopBar(
             )
         }
 
-        Image(
+        Icon(
             painter = painterResource(id = R.drawable.ic_search),
             contentDescription = null,
             modifier = Modifier.size(Dimens.HeadIconSize).clickable { onSearchClick() }

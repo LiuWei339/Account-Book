@@ -81,4 +81,8 @@ class RecordRepoImpl @Inject constructor(
     override suspend fun deleteRecord(createTime: Long) {
         recordDao.delete(createTime)
     }
+
+    override suspend fun searchRecordAndTypes(text: String): List<MoneyRecordAndType> {
+        return recordDao.searchRecordsAndTypes(text).map { it.toMoneyRecordAndType() }
+    }
 }

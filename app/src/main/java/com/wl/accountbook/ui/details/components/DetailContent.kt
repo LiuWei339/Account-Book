@@ -20,12 +20,11 @@ import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
-import com.wl.accountbook.ui.common.bottomBorder
+import com.wl.accountbook.ui.common.components.bottomBorder
 import com.wl.accountbook.ui.theme.AccountBookTheme
 import com.wl.accountbook.ui.theme.LineLightGray
 import com.wl.accountbook.ui.theme.TextColor
 import com.wl.common.util.toLocalDayString
-import com.wl.data.util.MoneyUtils
 import com.wl.data.util.toActualMoney
 import com.wl.domain.model.MoneyRecordAndType
 import com.wl.domain.model.MoneyRecordType
@@ -152,7 +151,7 @@ fun DetailField(
 ) {
     Text(
         text = fieldName,
-        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Normal),
+        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Normal),
         textAlign = TextAlign.Start,
         modifier = Modifier.layoutId(fieldRefId)
     )
@@ -164,7 +163,7 @@ fun DetailField(
     ) {
         Text(
             text = value,
-            style = MaterialTheme.typography.labelMedium.copy(
+            style = MaterialTheme.typography.titleSmall.copy(
                 fontWeight = FontWeight.Normal,
                 color = TextColor
             ),

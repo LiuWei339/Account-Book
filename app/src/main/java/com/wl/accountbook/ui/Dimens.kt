@@ -19,7 +19,6 @@ object Dimens {
     val HeadSize = 44.dp
     val HeadIconSize = 24.dp
     val MonthSingleStateHeight = 48.dp
-    val SingleRecordHeight = 32.dp
     val DayRecordHeight = 24.dp
     val NavIconSize = 20.dp
     val NavBigIconSize = 56.dp

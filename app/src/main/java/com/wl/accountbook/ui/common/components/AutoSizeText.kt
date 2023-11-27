@@ -1,4 +1,4 @@
-package com.wl.accountbook.ui.common
+package com.wl.accountbook.ui.common.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

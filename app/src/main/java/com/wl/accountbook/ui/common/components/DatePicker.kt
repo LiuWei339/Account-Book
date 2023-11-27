@@ -1,4 +1,4 @@
-package com.wl.accountbook.ui.common
+package com.wl.accountbook.ui.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
 import com.wl.accountbook.ui.theme.AccountBookTheme
-import com.wl.accountbook.ui.theme.TextGray
+import com.wl.accountbook.ui.theme.Gray
 import com.wl.common.util.LogUtil
 import kotlinx.coroutines.delay
 import java.time.LocalDate
@@ -70,7 +70,7 @@ fun DatePicker(
                     .padding(horizontal = Dimens.PaddingLarge)
             ) {
                 Text(text = stringResource(id = R.string.cancel).uppercase(),
-                    style = MaterialTheme.typography.bodyMedium.copy(color = TextGray),
+                    style = MaterialTheme.typography.bodyMedium.copy(color = Gray),
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .clickable { onClose() })
@@ -84,7 +84,7 @@ fun DatePicker(
                 )
 
                 Text(text = stringResource(id = R.string.confirm).uppercase(),
-                    style = MaterialTheme.typography.bodyMedium.copy(color = TextGray),
+                    style = MaterialTheme.typography.bodyMedium.copy(color = Gray),
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
                         .clickable {
@@ -265,7 +265,7 @@ fun PickerItem(
     ) {
         Text(
             text = itemText, style = MaterialTheme.typography.bodySmall.copy(
-                color = if (isSelected) MaterialTheme.colorScheme.primary else TextGray,
+                color = if (isSelected) MaterialTheme.colorScheme.primary else Gray,
                 fontSize = DatePickerConstants.PICKER_FONT_SIZE * if (isSelected) 1.3 else 1.0,
             ), textAlign = TextAlign.Center
         )

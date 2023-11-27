@@ -1,7 +1,6 @@
 package com.wl.accountbook.ui.home.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,57 +18,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
-import com.wl.accountbook.ui.common.HorizontalDivider
+import com.wl.accountbook.ui.common.components.HorizontalDivider
+import com.wl.accountbook.ui.common.components.SingleRecordCard
 import com.wl.accountbook.ui.home.HomeAction
 import com.wl.accountbook.ui.theme.AccountBookTheme
-import com.wl.accountbook.ui.theme.TextGray
 import com.wl.common.util.dayWithWeekFormat
 import com.wl.data.util.toActualMoney
 import com.wl.domain.model.MoneyRecordAndType
 import com.wl.domain.model.MoneyRecordType
 import java.util.Date
-
-@Composable
-fun SingleRecordCard(
-    record: MoneyRecordAndType,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(Dimens.SingleRecordHeight),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Box {
-            Row(
-                modifier = Modifier.fillMaxHeight(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                // icon TODO
-                Text(text = record.type.emoji)
-
-                Spacer(modifier = Modifier.width(Dimens.PaddingLarge))
-
-                // type or note
-                Text(
-                    text = record.note.ifEmpty { record.type.name },
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-        }
-
-        Text(
-            text = "${if (record.type.isExpenses) "-" else ""}${record.amount.toActualMoney()}",
-            style = MaterialTheme.typography.bodyMedium.copy(color = TextGray)
-        )
-    }
-}
 
 @Composable
 fun DayRecordsTitle(
@@ -115,7 +76,6 @@ fun DayRecords(
     date: Date,
     records: List<MoneyRecordAndType>,
     modifier: Modifier = Modifier,
-    onAction: (HomeAction) -> Unit,
     navigateToDetail: (createTime: Long) -> Unit
 ) {
     Column(
@@ -159,7 +119,6 @@ fun DayRecords(
 fun DaysRecords(
     recordsByDay: List<Pair<Date, List<MoneyRecordAndType>>>,
     modifier: Modifier = Modifier,
-    onAction: (HomeAction) -> Unit,
     navigateToDetail: (createTime: Long) -> Unit
 ) {
     LazyColumn {
@@ -170,31 +129,9 @@ fun DaysRecords(
             DayRecords(
                 date = date,
                 records = records,
-                onAction = onAction,
                 navigateToDetail = navigateToDetail
             )
         }
-    }
-}
-
-@Preview
-@Composable
-fun SingleRecordCardPreview() {
-    AccountBookTheme() {
-        SingleRecordCard(
-            MoneyRecordAndType(
-                20,
-                MoneyRecordType(
-                    1,
-                    "Food",
-                    "🎮",
-                    true
-                ),
-                "",
-                Date().time,
-                Date().time,
-            )
-        )
     }
 }
 
@@ -230,7 +167,6 @@ fun DayRecordsPreview() {
                     Date().time + 1,
                 )
             ),
-            onAction = {},
             navigateToDetail = {}
         )
     }

@@ -40,4 +40,11 @@ interface RecordDao {
     @Transaction
     @Query("SELECT * FROM DbMoneyRecord WHERE createTime = :createTime")
     suspend fun getRecordAndType(createTime: Long): DbMoneyRecordAndType
+
+    @Transaction
+    @Query("SELECT r.* FROM DbMoneyRecord as r " +
+            "INNER JOIN DbMoneyRecordType as t ON r.typeId == t.id " +
+            "WHERE r.note LIKE '%' || :text || '%' OR t.name LIKE '%' || :text || '%' " +
+            "ORDER BY r.recordTime DESC, r.createTime DESC")
+    suspend fun searchRecordsAndTypes(text: String): List<DbMoneyRecordAndType>
 }

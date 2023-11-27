@@ -6,8 +6,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.wl.accountbook.R
-import com.wl.accountbook.ui.common.NavigationBarFiller
-import com.wl.accountbook.ui.common.StatusBarFiller
+import com.wl.accountbook.ui.common.components.NavigationBarFiller
+import com.wl.accountbook.ui.common.components.StatusBarFiller
 import com.wl.accountbook.ui.details.components.DetailContent
 import com.wl.accountbook.ui.details.components.DetailTopBar
 import com.wl.domain.model.MoneyRecordAndType

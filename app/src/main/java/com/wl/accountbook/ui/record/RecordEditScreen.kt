@@ -12,10 +12,10 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.wl.accountbook.R
-import com.wl.accountbook.ui.common.BottomDialog
-import com.wl.accountbook.ui.common.DayPicker
-import com.wl.accountbook.ui.common.NavigationBarFiller
-import com.wl.accountbook.ui.common.StatusBarFiller
+import com.wl.accountbook.ui.common.components.BottomDialog
+import com.wl.accountbook.ui.common.components.DayPicker
+import com.wl.accountbook.ui.common.components.NavigationBarFiller
+import com.wl.accountbook.ui.common.components.StatusBarFiller
 import com.wl.accountbook.ui.record.calculator.CalculatorState
 import com.wl.accountbook.ui.record.components.RecordInput
 import com.wl.accountbook.ui.record.components.RecordTopBar
