@@ -30,4 +30,7 @@ object Dimens {
 
     // dialog
     val DialogTitleHeight = 32.dp
+
+    // stats
+    val TrendChartHeight = 136.dp
 }

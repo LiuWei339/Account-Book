@@ -12,12 +12,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wl.accountbook.extensions.toPx
-import com.wl.accountbook.ui.theme.DivideColor
+import com.wl.accountbook.ui.theme.LineGray
 
 @Composable
 fun HorizontalDivider(
     thickness: Float = 1f,
-    color: Color = DivideColor,
+    color: Color = LineGray,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -36,7 +36,7 @@ fun HorizontalDivider(
 @Composable
 fun VerticalDivider(
     thickness: Float = 1f,
-    color: Color = DivideColor,
+    color: Color = LineGray,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -55,7 +55,7 @@ fun VerticalDivider(
 @Composable
 fun HorizontalDivider(
     thickness: Dp,
-    color: Color = DivideColor,
+    color: Color = LineGray,
     modifier: Modifier = Modifier
 ) {
     val thicknessInPx = thickness.toPx()
@@ -69,7 +69,7 @@ fun HorizontalDivider(
 @Composable
 fun VerticalDivider(
     thickness: Dp,
-    color: Color = DivideColor,
+    color: Color = LineGray,
     modifier: Modifier = Modifier
 ) {
     val thicknessInPx = thickness.toPx()

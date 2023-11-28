@@ -33,4 +33,8 @@
 
     <!-- search -->
     <string name="search_prompts">Search</string>
+
+    <!-- stats -->
+    <string name="select_year_or_month">Select year or month</string>
+
 </resources>

@@ -33,4 +33,7 @@
 
     <!-- search -->
     <string name="search_prompts">搜索</string>
+
+    <!-- stats -->
+    <string name="select_year_or_month">选择年或月</string>
 </resources>

@@ -165,7 +165,7 @@ fun BottomNavigationBarPreview() {
     AccountBookTheme(dynamicColor = false) {
         BottomNavigationBar(items = listOf(
             BottomNavItem(icon = R.drawable.ic_home, label = R.string.record, route = "H"),
-            BottomNavItem(icon = R.drawable.ic_statics, label = R.string.stats, route = ""),
+            BottomNavItem(icon = R.drawable.ic_stats, label = R.string.stats, route = ""),
             BottomNavItem(icon = R.drawable.ic_add_record, label = R.string.add, route = ""),
             BottomNavItem(icon = R.drawable.ic_home, label = R.string.add, route = ""),
             BottomNavItem(icon = R.drawable.ic_home, label = R.string.add, route = ""),

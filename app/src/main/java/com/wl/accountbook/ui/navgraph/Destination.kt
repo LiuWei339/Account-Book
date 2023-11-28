@@ -10,7 +10,7 @@ sealed class Destination(
 
     // Tabs
     object HomeDestination: Destination("homeScreen")
-    object StaticsDestination: Destination("staticsScreen")
+    object StatsDestination: Destination("statsScreen")
     object RecordEditDestination: Destination("recordEditScreen")
 
     // home

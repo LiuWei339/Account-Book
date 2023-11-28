@@ -15,7 +15,7 @@ val AbYello = Color(0xFFFCF3A8)
 val LightBackground = Color(0xFFFFFFFF)
 
 val Gray = Color(0xFF737373)
-val DivideColor = Color(0x7F737373)
+val LineGray = Color(0x7F737373)
 val TextColor = Color(0xFF363636)
 val LightGrayBg = Color(0xFFF5F5F5)
 

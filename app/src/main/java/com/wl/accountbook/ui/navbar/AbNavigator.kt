@@ -53,9 +53,9 @@ fun AbNavigator() {
                 route = Destination.RecordEditDestination.withArgs("-1")
             ),
             BottomNavItem(
-                icon = R.drawable.ic_statics,
+                icon = R.drawable.ic_stats,
                 label = R.string.stats,
-                route = Destination.StaticsDestination.route
+                route = Destination.StatsDestination.route
             ),
         )
     }
@@ -65,7 +65,7 @@ fun AbNavigator() {
     val isBottomBarVisible = remember(backStackState) {
         (backStackState?.destination?.route ?: "") in listOf(
             Destination.HomeDestination.route,
-            Destination.StaticsDestination.route
+            Destination.StatsDestination.route
         )
     }
 
@@ -105,17 +105,19 @@ fun AbNavigator() {
                 )
             }
 
-            composable(route = Destination.StaticsDestination.route) {
+            composable(route = Destination.StatsDestination.route) {
                 Column {
                     StatusBarFiller()
                     Text(
-                        text = "StaticsDestination Coming soon",
+                        text = "StatsDestination Coming soon",
                         modifier = Modifier
                             .fillMaxSize()
                             .navigationBarsPadding()
                             .background(MaterialTheme.colorScheme.secondary),
                         style = MaterialTheme.typography.titleLarge
                     )
+//                    StatsScreen(
+//                    )
                 }
             }
 
