@@ -162,11 +162,11 @@ fun TrendChart(
                 Row(
                     modifier = Modifier
                         .offset {
-                            IntOffset(x = (spacingWidth * interval / 2).toInt(), y = 0)
+                            IntOffset(x = (0 - spacingWidth * interval / 2).toInt(), y = 0)
                         }
                 ) {
                     trendStats.forEachIndexed { index, stat ->
-                        if (index == 0 || index == trendStats.size - 1) return@forEachIndexed
+                        if (index == trendStats.size - 1) return@forEachIndexed
                         if ((index % interval == 0 && index <= (trendStats.size - 1) - interval)) {
                             Text(
                                 text = stat.label,
@@ -177,16 +177,6 @@ fun TrendChart(
                         }
                     }
                 }
-                Text(
-                    text = trendStats.first().label,
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier
-                        .width(spacingWidth.toDp() * interval)
-                        .offset {
-                            IntOffset(x = (0 - spacingWidth * interval / 2).toInt(), y = 0)
-                        },
-                    textAlign = TextAlign.Center
-                )
                 Text(
                     text = trendStats.last().label,
                     style = MaterialTheme.typography.bodySmall,
