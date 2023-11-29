@@ -1,6 +1,5 @@
 package com.wl.accountbook.ui.stats.components
 
-import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -16,16 +15,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
@@ -41,10 +39,7 @@ import com.wl.accountbook.ui.Dimens
 import com.wl.accountbook.ui.theme.AccountBookTheme
 import com.wl.accountbook.ui.theme.LineGray
 import com.wl.accountbook.ui.theme.LineLightGray
-import com.wl.common.util.LogUtil
 import com.wl.data.util.toActualMoney
-import java.lang.Math.floor
-import kotlin.math.roundToInt
 
 @Composable
 fun TrendChart(
@@ -64,8 +59,8 @@ fun TrendChart(
             val sum by remember(trendStats) {
                 mutableLongStateOf(trendStats.sumOf { it.amount })
             }
-            val average by remember(trendStats, sum) {
-                mutableLongStateOf(sum / (trendStats.size))
+            val average by remember {
+                derivedStateOf { sum / (trendStats.size) }
             }
 
             Text(

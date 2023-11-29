@@ -12,7 +12,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -32,9 +36,15 @@ fun SearchBar(
     onSearch: () -> Unit,
 ) {
 
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(key1 = true) {
+        focusRequester.requestFocus()
+    }
     Box(modifier = modifier.padding(vertical = Dimens.PaddingXSmall)) {
         TextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester),
             value = text,
             onValueChange = onValueChange,
             readOnly = readOnly,
