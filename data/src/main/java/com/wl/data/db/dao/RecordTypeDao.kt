@@ -14,6 +14,9 @@ interface RecordTypeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrUpdate(recordType: DbMoneyRecordType)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertOrUpdate(recordTypes: List<DbMoneyRecordType>)
+
     @Delete
     suspend fun delete(recordType: DbMoneyRecordType)
 

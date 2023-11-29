@@ -27,12 +27,30 @@ class RecordRepoImpl @Inject constructor(
     override fun getRecordTypes(isExpenses: Boolean): Flow<List<MoneyRecordType>> {
         return recordTypeDao.getRecordTypes(isExpenses).map { dbRecordTypes ->
             dbRecordTypes.map { it.toMoneyRecordType() }
+                .sortedWith { o1, o2 ->
+                    if (o1.isPreSet == o2.isPreSet) {
+                        o1.id - o2.id
+                    } else if (o1.isPreSet) {
+                        -1
+                    } else {
+                        1
+                    }
+                }
         }
     }
 
     override fun getRecordTypes(): Flow<List<MoneyRecordType>> {
         return recordTypeDao.getAll().map { dbRecordTypes ->
             dbRecordTypes.map { it.toMoneyRecordType() }
+                .sortedWith { o1, o2 ->
+                    if (o1.isPreSet == o2.isPreSet) {
+                        o1.id - o2.id
+                    } else if (o1.isPreSet) {
+                        -1
+                    } else {
+                        1
+                    }
+                }
         }
     }
 
@@ -47,6 +65,21 @@ class RecordRepoImpl @Inject constructor(
             )
         )
     }
+
+    override suspend fun addOrUpdateTypes(recordTypes: List<MoneyRecordType>) {
+        recordTypes.map { recordType ->
+            DbMoneyRecordType(
+                id = recordType.id,
+                name = recordType.name,
+                emoji = recordType.emoji,
+                isExpenses = recordType.isExpenses,
+                isPreSet = recordType.isPreSet
+            )
+        }.apply {
+            recordTypeDao.insertOrUpdate(this)
+        }
+    }
+
 
     override suspend fun addOrUpdateRecord(moneyRecord: MoneyRecordAndType) {
         recordDao.insertOrUpdate(

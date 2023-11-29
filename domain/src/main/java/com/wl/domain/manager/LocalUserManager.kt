@@ -10,4 +10,7 @@ interface LocalUserManager {
 
     fun isInitialized(): Flow<Boolean>
     suspend fun setInitialized()
+
+    fun savedLanguage(): Flow<String>
+    suspend fun saveLanguage(language: String)
 }

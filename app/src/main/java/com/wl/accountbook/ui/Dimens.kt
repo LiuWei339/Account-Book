@@ -24,7 +24,7 @@ object Dimens {
     val NavBigIconSize = 56.dp
 
     // add record
-    val MoneyTypeIconSize = 48.dp
+    val MoneyTypeIconSize = 40.dp
     val KeyBoardKeyHeight = 64.dp
     val DeleteIconWidth = 24.dp
 

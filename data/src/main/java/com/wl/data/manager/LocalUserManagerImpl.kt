@@ -19,27 +19,37 @@ class LocalUserManagerImpl @Inject constructor(
 ): LocalUserManager {
 
     override suspend fun saveCurrency(code: String) {
-        application.dataStore.edit { settings ->
-            settings[PreferenceKeys.CURRENCY] = code
-        }
+        save(PreferenceKeys.CURRENCY, code)
     }
 
-    override fun readCurrency(): Flow<String> = application.dataStore.data
-        .map { preferences ->
-            preferences[PreferenceKeys.CURRENCY] ?: ""
-        }
+    override fun readCurrency(): Flow<String> = read(PreferenceKeys.CURRENCY, "")
 
-    override fun isInitialized(): Flow<Boolean> = application.dataStore.data
-        .map { preferences ->
-            preferences[PreferenceKeys.INITIALIZED] ?: false
-        }
+    override fun isInitialized(): Flow<Boolean> = read(PreferenceKeys.INITIALIZED, false)
 
     override suspend fun setInitialized() {
+        save(PreferenceKeys.INITIALIZED, true)
+    }
+
+    override fun savedLanguage(): Flow<String> {
+        return read(PreferenceKeys.LANGUAGE, "")
+    }
+
+    override suspend fun saveLanguage(language: String) {
+        save(PreferenceKeys.LANGUAGE, language)
+    }
+
+    private suspend fun <T> save(key: Preferences.Key<T>, value: T) {
         application.dataStore.edit { settings ->
-            settings[PreferenceKeys.INITIALIZED] = true
+            settings[key] = value
         }
     }
 
+    private fun <T> read(key: Preferences.Key<T>, default: T): Flow<T> {
+        return application.dataStore.data
+            .map { preferences ->
+                preferences[key] ?: default
+            }
+    }
 }
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = Constants.USER_SETTINGS)
@@ -47,4 +57,5 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = Con
 private object PreferenceKeys {
     val CURRENCY = stringPreferencesKey(Constants.CURRENCY_KEY)
     val INITIALIZED = booleanPreferencesKey(Constants.INITIALIZED_KEY)
+    val LANGUAGE = stringPreferencesKey(Constants.LANGUAGE_KEY)
 }

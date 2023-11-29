@@ -70,7 +70,7 @@ private fun SingletonRecordType(
 
         Text(
             text = type.name,
-            style = MaterialTheme.typography.bodyMedium.run {
+            style = MaterialTheme.typography.bodySmall.run {
                 if (selected) {
                     this.copy(color = MaterialTheme.colorScheme.primary)
                 } else {

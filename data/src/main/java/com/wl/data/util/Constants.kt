@@ -4,6 +4,7 @@ object Constants {
     const val USER_SETTINGS = "user_settings"
     const val CURRENCY_KEY = "currency"
     const val INITIALIZED_KEY = "initialized"
+    const val LANGUAGE_KEY = "language"
 
     // calculation
     const val MAX_DECIMAL_LENGTH = 2

@@ -34,12 +34,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-//    @Inject
-//    lateinit var readCurrency: ReadCurrency
-//
-//    @Inject
-//    lateinit var saveCurrency: SaveCurrency
-
     private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,13 +43,6 @@ class MainActivity : ComponentActivity() {
         splashScreen.setKeepOnScreenCondition {
             viewModel.showSplash
         }
-
-//        lifecycleScope.launch {
-//            saveCurrency("123")
-//            readCurrency().collect {
-//                Log.d("Test", it.toString())
-//            }
-//        }
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -78,15 +65,6 @@ class MainActivity : ComponentActivity() {
                 ) {
                     NavGraph(Destination.AbNavigationDestination.route)
                 }
-
-                // A surface container using the 'background' color from the theme
-//                Surface(
-//                    modifier = Modifier.fillMaxSize(),
-//                    color = MaterialTheme.colorScheme.secondary
-//                ) {
-//                    HomeScreen()
-//                }
-//                HomeScreen(listOf())
             }
         }
     }

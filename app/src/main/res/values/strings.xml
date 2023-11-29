@@ -42,4 +42,26 @@
     <string name="ranking">Ranking</string>
     <string name="all_year">All</string>
 
+    <!-- preset record type names -->
+    <string name="record_type_food">Food</string>
+    <string name="record_type_household">Household</string>
+    <string name="record_type_transport">Transport</string>
+    <string name="record_type_housing">Housing</string>
+    <string name="record_type_pets">Pets</string>
+    <string name="record_type_entertainment">Entertainment</string>
+    <string name="record_type_travel">Travel</string>
+    <string name="record_type_health">Health</string>
+    <string name="record_type_education">Education</string>
+    <string name="record_type_gifts">Gifts</string>
+    <string name="record_type_shopping">Shopping</string>
+    <string name="record_type_apparel">Apparel</string>
+    <string name="record_type_exchange">Exchange</string>
+    <string name="record_type_other">Other</string>
+
+    <string name="record_type_salary">Salary</string>
+    <string name="record_type_allowance">Allowance</string>
+    <string name="record_type_bonus">Bonus</string>
+    <string name="record_type_part_time">Part-time</string>
+    <string name="record_type_investment">Investment</string>
+
 </resources>

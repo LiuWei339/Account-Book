@@ -42,5 +42,27 @@
     <string name="ranking">排行</string>
     <string name="all_year">全年</string>
 
+    <!-- preset record type names -->
+    <string name="record_type_food">餐饮</string>
+    <string name="record_type_household">日用</string>
+    <string name="record_type_transport">交通</string>
+    <string name="record_type_housing">住房</string>
+    <string name="record_type_pets">宠物</string>
+    <string name="record_type_entertainment">娱乐</string>
+    <string name="record_type_travel">旅行</string>
+    <string name="record_type_health">健康</string>
+    <string name="record_type_education">教育</string>
+    <string name="record_type_gifts">礼物</string>
+    <string name="record_type_shopping">购物</string>
+    <string name="record_type_apparel">衣物</string>
+    <string name="record_type_exchange">换汇</string>
+    <string name="record_type_other">其它</string>
+
+    <string name="record_type_salary">工资</string>
+    <string name="record_type_allowance">津贴</string>
+    <string name="record_type_bonus">奖金</string>
+    <string name="record_type_part_time">兼职</string>
+    <string name="record_type_investment">投资</string>
+
 
 </resources>
