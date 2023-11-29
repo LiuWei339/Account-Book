@@ -15,7 +15,6 @@ import com.wl.accountbook.ui.common.components.NavigationBarFiller
 import com.wl.accountbook.ui.common.components.SingleRecordCard
 import com.wl.accountbook.ui.common.components.StatusBarFiller
 import com.wl.accountbook.ui.search.components.SearchTopBar
-import com.wl.common.util.LogUtil
 
 @Composable
 fun SearchScreen(
@@ -51,8 +50,8 @@ fun SearchScreen(
     }
 
     OnLifecycleEvent { _, event ->
-        if (event == Lifecycle.Event.ON_START) {
-            onAction(SearchAction.START)
+        if (event == Lifecycle.Event.ON_CREATE) {
+            onAction(SearchAction.CREATE)
         }
     }
 }

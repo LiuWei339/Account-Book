@@ -56,30 +56,26 @@ fun CommonMultiPicker(
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            Box(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(Dimens.DialogTitleHeight)
-                    .padding(horizontal = Dimens.PaddingLarge)
+                    .padding(horizontal = Dimens.PaddingLarge),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(text = stringResource(id = R.string.cancel).uppercase(),
                     style = MaterialTheme.typography.bodyMedium.copy(color = Gray),
-                    modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .clickable { onClose() })
+                    modifier = Modifier.clickable { onClose() })
 
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.align(
-                        Alignment.Center
-                    )
+                    style = MaterialTheme.typography.bodyMedium
                 )
 
                 Text(text = stringResource(id = R.string.confirm).uppercase(),
                     style = MaterialTheme.typography.bodyMedium.copy(color = Gray),
                     modifier = Modifier
-                        .align(Alignment.CenterEnd)
                         .clickable {
                             onConfirm(selected.toList())
                             onClose()

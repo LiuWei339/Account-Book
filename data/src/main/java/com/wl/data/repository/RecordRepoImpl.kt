@@ -15,7 +15,7 @@ import javax.inject.Inject
 class RecordRepoImpl @Inject constructor(
     private val recordDao: RecordDao,
     private val recordTypeDao: RecordTypeDao
-): RecordRepo {
+) : RecordRepo {
     override fun getExpensesRecordTypes(): Flow<List<MoneyRecordType>> {
         return getRecordTypes(true)
     }
@@ -63,7 +63,7 @@ class RecordRepoImpl @Inject constructor(
     }
 
     override fun getRecordAndTypes(start: Long, end: Long): Flow<List<MoneyRecordAndType>> {
-        return recordDao.getRecordsAndTypes(start, end).map { list ->
+        return recordDao.getRecordAndTypes(start, end).map { list ->
             list.map { it.toMoneyRecordAndType() }
         }
     }
@@ -84,5 +84,13 @@ class RecordRepoImpl @Inject constructor(
 
     override suspend fun searchRecordAndTypes(text: String): List<MoneyRecordAndType> {
         return recordDao.searchRecordsAndTypes(text).map { it.toMoneyRecordAndType() }
+    }
+
+    override suspend fun getRecordAndTypes(
+        start: Long,
+        end: Long,
+        isExpenses: Boolean
+    ): List<MoneyRecordAndType> {
+        return recordDao.getRecordAndTypes(start, end, isExpenses).map { it.toMoneyRecordAndType() }
     }
 }

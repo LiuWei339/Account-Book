@@ -36,4 +36,11 @@
 
     <!-- stats -->
     <string name="select_year_or_month">选择年或月</string>
+    <string name="trend_chart">走势图</string>
+    <string name="all_colon">总值：%s</string>
+    <string name="average_colon">平均值：%s</string>
+    <string name="ranking">排行</string>
+    <string name="all_year">全年</string>
+
+
 </resources>

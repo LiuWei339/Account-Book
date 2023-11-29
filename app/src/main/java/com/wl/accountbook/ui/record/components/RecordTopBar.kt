@@ -35,7 +35,6 @@ fun RecordTopBar(
         modifier = modifier
             .background(MaterialTheme.colorScheme.secondary)
             .fillMaxWidth()
-            .height(Dimens.HeadSize)
             .padding(horizontal = Dimens.PaddingXLarge),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -50,11 +49,12 @@ fun RecordTopBar(
         )
 
         Row(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             tabNames.forEachIndexed { index, name ->
                 CommonTab(
+                    modifier = Modifier.padding(vertical = Dimens.PaddingSmall),
                     label = name,
                     isSelected = index == selected,
                     onClick = {

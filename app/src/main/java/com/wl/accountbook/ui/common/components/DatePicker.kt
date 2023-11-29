@@ -81,8 +81,15 @@ fun DatePicker(
                 1,
                 1
             )
-                .withMonth(monthList[selected[1]])
-                .withDayOfMonth(dayList[selected[2]])
+                .run {
+                    if (showMonth) {
+                        withMonth(monthList[selected[1]]).run {
+                            if (showDay) {
+                                withDayOfMonth(dayList[selected[2]])
+                            } else this@run
+                        }
+                    } else this
+                }
             onConfirm(localDate)
         }
     )

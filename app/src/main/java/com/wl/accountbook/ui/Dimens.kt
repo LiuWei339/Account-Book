@@ -33,4 +33,5 @@ object Dimens {
 
     // stats
     val TrendChartHeight = 136.dp
+    val TypeStatsLineHeight = 4.dp
 }

@@ -24,4 +24,11 @@ interface RecordRepo {
 
     // search
     suspend fun searchRecordAndTypes(text: String): List<MoneyRecordAndType>
+
+    // stats
+    suspend fun getRecordAndTypes(
+        start: Long,
+        end: Long,
+        isExpenses: Boolean
+    ): List<MoneyRecordAndType>
 }

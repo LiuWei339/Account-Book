@@ -11,6 +11,7 @@ import java.util.Date
 object DateTimeUtil {
     private const val DAY_WITH_WEEK_PATTERN = "dd EEE"
     private const val MONTH_YEAR_PATTERN = "MMM YYYY"
+    private const val YEAR_PATTERN = "YYYY"
 
     fun format(date: Date, pattern: String): String {
         return SimpleDateFormat(pattern).format(date)
@@ -18,6 +19,7 @@ object DateTimeUtil {
 
     fun dayWithWeekFormat(date: Date) = format(date, DAY_WITH_WEEK_PATTERN)
     fun monthYearFormat(date: Date) = format(date, MONTH_YEAR_PATTERN)
+    fun yearFormat(date: Date) = format(date, YEAR_PATTERN)
 }
 
 fun Date.format(pattern: String): String {
@@ -26,6 +28,7 @@ fun Date.format(pattern: String): String {
 
 fun Date.dayWithWeekFormat() = DateTimeUtil.dayWithWeekFormat(this)
 fun Date.monthYearFormat() = DateTimeUtil.monthYearFormat(this)
+fun Date.yearFormat() = DateTimeUtil.yearFormat(this)
 fun Date.toLocalDayString(timeStyle: Int = DateFormat.SHORT): String {
     return DateFormat.getDateInstance(timeStyle).format(this)
 }
@@ -75,7 +78,21 @@ fun Long.endOfTheMonth(): Long {
 fun Long.startOfTheMonth(): Long {
     val calendar: Calendar = Calendar.getInstance()
     calendar.timeInMillis = this.startOfTheDay()
-    calendar.set(Calendar.DAY_OF_MONTH, 0)
+    calendar.set(Calendar.DAY_OF_MONTH, 1)
+    return calendar.timeInMillis
+}
+
+fun Long.endOfTheYear(): Long {
+    val calendar: Calendar = Calendar.getInstance()
+    calendar.timeInMillis = this.endOfTheDay()
+    calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR))
+    return calendar.timeInMillis
+}
+
+fun Long.startOfTheYear(): Long {
+    val calendar: Calendar = Calendar.getInstance()
+    calendar.timeInMillis = this.startOfTheDay()
+    calendar.set(Calendar.DAY_OF_YEAR, 1)
     return calendar.timeInMillis
 }
 

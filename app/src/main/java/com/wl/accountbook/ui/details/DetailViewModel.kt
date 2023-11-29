@@ -22,7 +22,7 @@ class DetailViewModel @Inject constructor(
     private val detailArgs = DetailArgs(savedStateHandle)
 
     var state by mutableStateOf<MoneyRecordAndType?>(null)
-
+        private set
     init {
         viewModelScope.launch(context = Dispatchers.IO) {
             state = recordRepo.getRecordAndType(detailArgs.recordCreateTime)

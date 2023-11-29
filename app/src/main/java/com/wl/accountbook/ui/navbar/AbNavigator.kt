@@ -29,12 +29,14 @@ import com.wl.accountbook.ui.details.detailScreen
 import com.wl.accountbook.ui.details.navigateToDetail
 import com.wl.accountbook.ui.home.HomeScreen
 import com.wl.accountbook.ui.home.HomeViewModel
+import com.wl.accountbook.ui.home.homeScreen
 import com.wl.accountbook.ui.navbar.components.BottomNavItem
 import com.wl.accountbook.ui.navbar.components.BottomNavigationBar
 import com.wl.accountbook.ui.navgraph.Destination
 import com.wl.accountbook.ui.record.recordEditScreen
 import com.wl.accountbook.ui.search.navigateToSearch
 import com.wl.accountbook.ui.search.searchScreen
+import com.wl.accountbook.ui.stats.statsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -94,33 +96,8 @@ fun AbNavigator() {
             startDestination = Destination.HomeDestination.route,
             modifier = Modifier.padding(bottom = bottomPadding)
         ) {
-            composable(route = Destination.HomeDestination.route) {
-                val viewModel: HomeViewModel = hiltViewModel()
-                val state = viewModel.stateFlow.collectAsState()
-                HomeScreen(
-                    state = state.value,
-                    onAction = viewModel::onAction,
-                    navigateToDetail = navController::navigateToDetail,
-                    navigateToSearch = navController::navigateToSearch
-                )
-            }
-
-            composable(route = Destination.StatsDestination.route) {
-                Column {
-                    StatusBarFiller()
-                    Text(
-                        text = "StatsDestination Coming soon",
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .navigationBarsPadding()
-                            .background(MaterialTheme.colorScheme.secondary),
-                        style = MaterialTheme.typography.titleLarge
-                    )
-//                    StatsScreen(
-//                    )
-                }
-            }
-
+            homeScreen(navController)
+            statsScreen(navController)
             recordEditScreen(navController)
             detailScreen(navController)
             searchScreen(navController)

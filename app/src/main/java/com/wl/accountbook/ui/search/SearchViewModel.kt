@@ -25,7 +25,7 @@ class SearchViewModel @Inject constructor(
 
     fun onAction(action: SearchAction) {
         when(action) {
-            SearchAction.Search, SearchAction.START -> {
+            SearchAction.Search, SearchAction.CREATE -> {
                 search(_stateFlow.value.searchText)
             }
             is SearchAction.ChangeSearchText -> {

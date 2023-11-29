@@ -25,14 +25,17 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.Lifecycle
 import com.wl.accountbook.R
 import com.wl.accountbook.ui.Dimens
+import com.wl.accountbook.ui.common.OnLifecycleEvent
 import com.wl.accountbook.ui.common.components.AutoSizeText
 import com.wl.accountbook.ui.common.components.BottomDialog
 import com.wl.accountbook.ui.common.components.MonthPicker
 import com.wl.accountbook.ui.common.components.StatusBarFiller
 import com.wl.accountbook.ui.home.components.DaysRecords
 import com.wl.accountbook.ui.home.components.HomeTopBar
+import com.wl.accountbook.ui.search.SearchAction
 import com.wl.accountbook.ui.theme.AccountBookTheme
 import com.wl.common.util.LogUtil
 import com.wl.common.util.toLocalDate

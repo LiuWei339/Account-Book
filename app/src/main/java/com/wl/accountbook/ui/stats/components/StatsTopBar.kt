@@ -29,13 +29,18 @@ import com.wl.accountbook.ui.common.components.BottomDialog
 import com.wl.accountbook.ui.common.components.CommonTab
 import com.wl.accountbook.ui.stats.StatsAction
 import com.wl.accountbook.ui.theme.AccountBookTheme
+import com.wl.common.util.monthYearFormat
+import com.wl.common.util.toDate
+import com.wl.common.util.toLocalDate
 import com.wl.common.util.toTimeMillis
-import java.time.LocalDate
+import com.wl.common.util.yearFormat
+import java.util.Date
 
 @Composable
 fun StatsTopBar(
     modifier: Modifier = Modifier,
-    timeText: String,
+    timeStamp: Long,
+    isShowMonthStats: Boolean,
     selected: Int,
     onAction: (StatsAction) -> Unit
 ) {
@@ -44,7 +49,8 @@ fun StatsTopBar(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         StatsDate(
-            timeText = timeText,
+            timeStamp = timeStamp,
+            isShowMonthStats = isShowMonthStats,
             onAction = onAction
         )
 
@@ -73,7 +79,8 @@ fun StatsTopBar(
 @Composable
 fun StatsDate(
     modifier: Modifier = Modifier,
-    timeText: String,
+    timeStamp: Long,
+    isShowMonthStats: Boolean,
     onAction: (StatsAction) -> Unit
 ) {
     var showMonthSelector by rememberSaveable { mutableStateOf(false) }
@@ -87,9 +94,8 @@ fun StatsDate(
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            text = timeText,
+            text = if (isShowMonthStats) Date(timeStamp).monthYearFormat() else Date(timeStamp).yearFormat(),
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(Dimens.PaddingXSmall),
             textAlign = TextAlign.Center
         )
         Image(
@@ -102,7 +108,8 @@ fun StatsDate(
     if (showMonthSelector) {
         BottomDialog(onDismiss = {showMonthSelector = false}) {
             StatsDatePicker(
-                curDate = LocalDate.now(),
+                curDate = timeStamp.toDate().toLocalDate(),
+                isShowMonthStats = isShowMonthStats,
                 onClose = { showMonthSelector = false },
                 onConfirm = { localDate, isSelectYear ->
                     if (isSelectYear) {
@@ -121,8 +128,9 @@ fun StatsDate(
 fun StatsTopBarPreview() {
     AccountBookTheme(dynamicColor = false) {
         StatsTopBar(
-            timeText = "Nov 11",
             selected = 0,
+            timeStamp = System.currentTimeMillis(),
+            isShowMonthStats = true,
             onAction = {}
         )
     }

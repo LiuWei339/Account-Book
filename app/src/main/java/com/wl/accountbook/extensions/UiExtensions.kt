@@ -14,3 +14,18 @@ fun Dp.toPx(): Float {
 fun Dp.toSp(): TextUnit {
     return with(LocalDensity.current) { this@toSp.toSp() }
 }
+
+@Composable
+fun TextUnit.toDp(): Dp {
+    return with(LocalDensity.current) { this@toDp.toDp() }
+}
+
+@Composable
+fun TextUnit.toPx(): Float {
+    return with(LocalDensity.current) { this@toPx.toPx() }
+}
+
+@Composable
+fun Float.toDp(): Dp {
+    return with(LocalDensity.current) { this@toDp.toDp() }
+}

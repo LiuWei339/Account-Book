@@ -36,5 +36,10 @@
 
     <!-- stats -->
     <string name="select_year_or_month">Select year or month</string>
+    <string name="trend_chart">Trend chart</string>
+    <string name="all_colon">All: %s</string>
+    <string name="average_colon">Average: %s</string>
+    <string name="ranking">Ranking</string>
+    <string name="all_year">All</string>
 
 </resources>
