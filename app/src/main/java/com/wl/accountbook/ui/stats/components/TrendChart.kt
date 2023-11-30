@@ -57,7 +57,7 @@ fun TrendChart(
         Column(modifier = Modifier.fillMaxWidth()) {
             val color = MaterialTheme.colorScheme.primary
             val sum by remember(trendStats) {
-                mutableLongStateOf(trendStats.sumOf { it.amount })
+                derivedStateOf { trendStats.sumOf { it.amount } }
             }
             val average by remember {
                 derivedStateOf { sum / (trendStats.size) }

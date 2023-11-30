@@ -6,4 +6,5 @@ sealed class StatsAction {
     sealed class PressTab(val tabIndex: Int): StatsAction()
     object PressExpenseTab: PressTab(0)
     object PressIncomeTab: PressTab(1)
+    object CREATE: StatsAction()
 }

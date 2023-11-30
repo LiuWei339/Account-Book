@@ -40,10 +40,6 @@ class StatsViewModel @Inject constructor(
     private var endTime = System.currentTimeMillis().endOfTheMonth()
     private var getStatsJob: Job? = null
 
-    init {
-        refreshState()
-    }
-
     fun onAction(action: StatsAction) {
         when(action) {
             is StatsAction.SelectYear -> {
@@ -78,6 +74,9 @@ class StatsViewModel @Inject constructor(
                 if (!isExpenseStats) return
                 isExpenseStats = false
                 state = state.copy(tabIndex = 1)
+                refreshState()
+            }
+            StatsAction.CREATE -> {
                 refreshState()
             }
         }
@@ -154,7 +153,7 @@ class StatsViewModel @Inject constructor(
                 if (amount > maxAmountOfType) maxAmountOfType = amount
                 Pair(entry.value.first().first, amount)
             }
-            .sortedBy { it.second }
+            .sortedByDescending { it.second }
             .map {
                 TypeStats(
                     type = it.first,

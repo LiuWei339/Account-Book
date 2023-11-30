@@ -28,7 +28,7 @@ fun RecordTypeSelector(
 ) {
     LazyVerticalGrid(
         modifier = modifier.background(MaterialTheme.colorScheme.background),
-        columns = GridCells.Adaptive(minSize = Dimens.MoneyTypeIconSize * 1.5f),
+        columns = GridCells.Adaptive(minSize = Dimens.MoneyTypeIconSize * 1.8f),
         contentPadding = PaddingValues(
             vertical = Dimens.PaddingSmall,
             horizontal = Dimens.PaddingXXXLarge
@@ -70,7 +70,7 @@ private fun SingletonRecordType(
 
         Text(
             text = type.name,
-            style = MaterialTheme.typography.bodySmall.run {
+            style = MaterialTheme.typography.labelSmall.run {
                 if (selected) {
                     this.copy(color = MaterialTheme.colorScheme.primary)
                 } else {

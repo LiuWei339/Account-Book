@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.Lifecycle
 import com.wl.accountbook.ui.Dimens
+import com.wl.accountbook.ui.common.OnLifecycleEvent
 import com.wl.accountbook.ui.common.components.NavigationBarFiller
 import com.wl.accountbook.ui.common.components.StatusBarFiller
 import com.wl.accountbook.ui.stats.components.StatsTopBar
@@ -19,7 +21,9 @@ fun StatsScreen(
     onAction: (StatsAction) -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize().then(modifier)
+        modifier = Modifier
+            .fillMaxSize()
+            .then(modifier)
     ) {
         StatusBarFiller()
         StatsTopBar(
@@ -37,5 +41,11 @@ fun StatsScreen(
             statsByType = state.statsByType
         )
         NavigationBarFiller()
+
+        OnLifecycleEvent { _, event ->
+            if (event == Lifecycle.Event.ON_CREATE) {
+                onAction(StatsAction.CREATE)
+            }
+        }
     }
 }

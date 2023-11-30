@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wl.accountbook.data.PresetRecordTypes
+import com.wl.common.util.LogUtil
 import com.wl.domain.manager.LocalUserManager
 import com.wl.domain.repository.RecordRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,6 +46,7 @@ class MainViewModel @Inject constructor(
         val currentLanguage = Locale.getDefault().language
         val isLanguageUnChanged = localUserManager.savedLanguage().map { it == currentLanguage }.first()
         if (isLanguageUnChanged) return
+        LogUtil.i("MainViewModel", "init or update preset record types")
         recordRepo.addOrUpdateTypes(presetRecordTypes())
         localUserManager.saveLanguage(currentLanguage)
     }

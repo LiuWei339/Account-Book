@@ -1,5 +1,6 @@
 package com.wl.data.util
 
+import kotlin.math.absoluteValue
 import kotlin.math.pow
 
 object MoneyUtils {
@@ -26,8 +27,8 @@ object MoneyUtils {
     }
 
     fun transToActualMoney(number: Long): String {
-        val (integer, decimal) = transToShowMoney(number)
-        return "$integer${if (decimal.isNotEmpty()) ".$decimal" else ""}"
+        val (integer, decimal) = transToShowMoney(number.absoluteValue)
+        return "${if (number < 0) "-" else ""}$integer${if (decimal.isNotEmpty()) ".$decimal" else ""}"
     }
 }
 

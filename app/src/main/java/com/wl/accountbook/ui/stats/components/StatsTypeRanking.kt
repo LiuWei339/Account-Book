@@ -18,6 +18,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,6 +40,9 @@ fun StatsTypeRanking(
     statsByType: List<TypeStats>,
     onClickType: (typeId: Int) -> Unit = {}
 ) {
+    val sum by remember(statsByType) {
+        derivedStateOf { statsByType.sumOf { it.amount } }
+    }
 
     Box(modifier = modifier) {
         Column(
@@ -56,6 +62,7 @@ fun StatsTypeRanking(
                 ) { typeStats ->
                     SingleTypeStatDiagram(
                         typeStats = typeStats,
+                        sum = sum,
                         onClick = { onClickType(typeStats.type.id) }
                     )
                 }
@@ -68,6 +75,7 @@ fun StatsTypeRanking(
 fun SingleTypeStatDiagram(
     modifier: Modifier = Modifier,
     typeStats: TypeStats,
+    sum: Long,
     onClick: () -> Unit
 ) {
     Row(
@@ -92,7 +100,7 @@ fun SingleTypeStatDiagram(
                 Spacer(modifier = Modifier.width(Dimens.PaddingMedium))
                 Text(
                     text = NumberFormat.getPercentInstance()
-                        .apply { minimumFractionDigits = 1 }.format(typeStats.percentOfMax),
+                        .apply { minimumFractionDigits = 1 }.format(typeStats.amount.toFloat() / sum),
                     style = MaterialTheme.typography.bodySmall
                 )
 
@@ -148,7 +156,8 @@ fun SingleTypeStatDiagramPreview() {
                     amount = 3300L,
                     percentOfMax = 0.9f
                 ),
-                onClick = {}
+                onClick = {},
+                sum = 6600L
             )
         }
     }
